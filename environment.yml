@@ -2,6 +2,8 @@ name: practice_env
 channels:
   - defaults
 dependencies:
+  - pip:
+      - omegaconf
   - aws-c-common=0.12.4=h79febb2_0
   - blas=1.0=openblas
   - bzip2=1.0.8=h80987f9_6
