@@ -20,22 +20,59 @@ config_dict = {
             "enabled": True,
             "strategy": "mean_by_title"
         },
+        "age_binning": {
+            "enabled": True,
+            "strategy": "equal_width",   # "quantile"
+            "output_column": "Age_band",
+            "num_bins": 5,
+            "drop_original": True,
+        },
         "categorical_encoding": {
             "enabled": True,
             "columns": ["Sex", "Embarked"]
         },
+        "family_features": {
+            "enabled": True,
+            "family_size_column": "Family_Size",
+            "alone_column": "Alone",
+            "drop_original": False,      # удалять ли потом SibSp и Parch
+        },
+        "fare_binning": {
+            "enabled": True,
+            "strategy": "quantile",
+            "output_column": "Fare_Range",
+            "num_bins": 4,
+            "drop_original": True,
+        },
         "features": {
-            "use_columns": [
+            "given_columns": [ # что изначально дали?
+                "PassengerId",
+                "Survived",
+                "Pclass",
+                "Name",
+                "Sex",
+                "Age",     # Исходная колонка до FE
+                "SibSp",   # Исходная колонка
+                "Parch",   # Исходная колонка
+                "Ticket",  # Удаляем
+                "Fare",    # Исходная колонка до FE
+                "Cabin",   # Удаляем
+                "Embarked",
+            ],
+            "use_columns": [    # что используем?
                 "Pclass",
                 "Sex",
-                "Age",
+                "Age_band",     # feature engineering
                 "SibSp",
                 "Parch",
-                "Fare", # Здесь вот что-то не так, мы делали другую колонку из этой.
-                "Embarked"
+                "Fare_Range",   # feature engineering
+                "Embarked",
+                "Family_Size",  # feature engineering
+                "Alone",        # feature engineering
             ]
+
         },
-        "save_processed": False # Потом поставлю True
+        "save_processed": False   # Потом поставлю True
     },
 
     "training": {
