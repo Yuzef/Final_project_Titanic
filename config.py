@@ -20,6 +20,10 @@ config_dict = {
             "enabled": True,
             "strategy": "mean_by_title"
         },
+        "initial": {
+            "enabled": True,
+            "output_column": "Initial",
+        },
         "age_binning": {
             "enabled": True,
             "strategy": "equal_width",   # "quantile"
@@ -29,7 +33,20 @@ config_dict = {
         },
         "categorical_encoding": {
             "enabled": True,
-            "columns": ["Sex", "Embarked"]
+            "mapping": {
+                "enabled": True,
+                "columns": {
+                    "Sex": {
+                        "male": 0,
+                        "female": 1,
+                    },
+                },
+            },
+            "one_hot": {
+                "enabled": True,
+                "columns": ["Embarked", "Initial"],
+                "drop_first": False,   # для LogisticRegression можно попробовать поставить True
+            },
         },
         "family_features": {
             "enabled": True,
@@ -66,10 +83,13 @@ config_dict = {
                 "SibSp",
                 "Parch",
                 "Fare_Range",   # feature engineering
-                "Embarked",
                 "Family_Size",  # feature engineering
                 "Alone",        # feature engineering
-            ]
+            ],
+            "include_prefixes": [ # columns after one-hot-encoding
+                "Embarked_",
+                "Initial_",
+            ],
 
         },
         "save_processed": False   # Потом поставлю True

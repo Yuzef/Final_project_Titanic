@@ -13,6 +13,9 @@ processed_df = preprocess(df, config)
 print(df.isna().sum())
 print("---------------------")
 print(processed_df.isna().sum())
+print("---------------------")
+print(processed_df.shape)
+print(processed_df.columns.tolist())
 
 # def main():
 #     cfg = config
