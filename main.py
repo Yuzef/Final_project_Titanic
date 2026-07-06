@@ -4,11 +4,15 @@
 import pandas as pd
 
 from config import config
-from src.preprocessing import preprocess
+from src.preprocessing import preprocess, fit_preprocessing
 
 # Проверка препроцессинга.
 df = pd.read_csv(config.paths.train_csv)
-processed_df = preprocess(df, config)
+
+# Fit preprocessing only on train, then reuse this state for validation/test.
+state = fit_preprocessing(df, config)
+processed_df = preprocess(df, config, state)
+
 
 print(df.isna().sum())
 print("---------------------")

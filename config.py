@@ -54,6 +54,10 @@ config_dict = {
             "alone_column": "Alone",
             "drop_original": False,      # удалять ли потом SibSp и Parch
         },
+        "fare": { # если в тесте будет пропуск, то заменяем его значением median из train.
+            "enabled": True,
+            "strategy": "median",
+        },
         "fare_binning": {
             "enabled": True,
             "strategy": "quantile",

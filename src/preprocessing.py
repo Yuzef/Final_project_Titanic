@@ -1,6 +1,7 @@
 import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
 
-def fill_embarked(df, cfg):
+def fill_embarked(df, cfg, state=None):
     """
     Заполняет пропуски в столбце Embarked наиболее часто встречающимся значением.
     В текущем датасете два пропуска заполняются значением S (порт посадки Southampton).
@@ -21,8 +22,8 @@ def fill_embarked(df, cfg):
         return df
     
     if cfg.strategy == "most_frequent":
-        most_frequent = df["Embarked"].mode().iloc[0]
-        df["Embarked"] = df["Embarked"].fillna(most_frequent)
+        fill_value = state["embarked_fill_value"]
+        df["Embarked"] = df["Embarked"].fillna(fill_value)
     else:
         raise ValueError(f"Unknown Embarked strategy: {cfg.strategy}")
     
@@ -67,7 +68,7 @@ def create_initial_column(df, cfg):
 
     return df
 
-def fill_age_column(df, strategy):
+def fill_age_column(df, strategy, state):
     """
     Заполняет пропуски в столбце Age средними значениями по группам в зависимости от их "титула".
     В текущем датасете титулы: ['Miss', 'Mrs', 'Other', 'Mr'].
@@ -90,17 +91,20 @@ def fill_age_column(df, strategy):
         if "Initial" not in df.columns:
             raise ValueError("Initial column is required for age strategy mean_by_title")
 
-        age_means_by_initial = df.groupby("Initial")["Age"].transform("mean")
-        df["Age"] = df["Age"].fillna(age_means_by_initial)
+        age_fill_values = df["Initial"].map(state["age_means_by_initial"])
+        df["Age"] = df["Age"].fillna(age_fill_values)
 
     else:
         raise ValueError(f"Unknown age strategy: {strategy}")
-        
+
     return df
 
-def create_age_band(df, cfg):
+def create_age_band(df, cfg, state):
     """
-    Создаёт num_of_bins возрастных групп на основе колонки Age.
+    Создаёт num_of_bins возрастных групп на основе колонки Age (сохранённых age_bins).
+
+    Границы age_bins должны быть вычислены в fit_preprocessing() только на train
+    и затем переиспользованы для train/validation/test.
 
     strategy = "equal_width" при num_bins = 5 (-> одинаковая ширина интервалов возраста):
         0: Age <= 16
@@ -118,24 +122,13 @@ def create_age_band(df, cfg):
     
     output_column = cfg.output_column
 
-    if cfg.strategy == "equal_width":
+    if cfg.strategy in ["equal_width", "quantile"]:
         df[output_column] = pd.cut(
             df["Age"],
-            bins=cfg.num_bins,
+            bins=state["age_bins"],
             labels = False,
             include_lowest=True,
         ).astype(int)
-
-    elif cfg.strategy == "quantile":
-        df[cfg.output_column] = pd.qcut(
-            df["Age"],
-            q=cfg.num_bins,
-            # вернуть не сами интервалы, а номера групп
-            labels=False,
-            # Если какие-то границы совпали - duplicate, просто уменьши количество бинов.
-            duplicates="drop",
-        ).astype(int)
-
     else:
         raise ValueError(f"Unknown age binning strategy: {cfg.strategy}")
     
@@ -173,7 +166,23 @@ def create_family_features(df, cfg):
 
     return df
 
-def create_fare_range(df, cfg):
+def fill_fare_column(df, cfg, state):
+    """
+    Заполняет пропуски в Fare значением, вычисленным на train.
+    """
+    df = df.copy()
+
+    if not cfg.enabled:
+        return df
+
+    if cfg.strategy == "median":
+        df["Fare"] = df["Fare"].fillna(state["fare_fill_value"])
+    else:
+        raise ValueError(f"Unknown fare strategy: {cfg.strategy}")
+
+    return df
+
+def create_fare_range(df, cfg, state=None):
     """
     Создаёт признак Fare_Range на основе заданного количества квантилей Fare.
 
@@ -192,11 +201,11 @@ def create_fare_range(df, cfg):
     output_column = cfg.output_column
 
     if cfg.strategy == "quantile":
-        df[output_column] = pd.qcut(
+        df[output_column] = pd.cut(
             df["Fare"],
-            q=cfg.num_bins,
+            bins=state["fare_bins"],
             labels=False,
-            duplicates="drop",
+            include_lowest=True,
         ).astype(int)
     
     else:
@@ -207,11 +216,11 @@ def create_fare_range(df, cfg):
     
     return df
 
-def encode_categorical_columns(df, cfg):
+def encode_categorical_columns(df, cfg, state):
     """
     Кодирует категориальные признаки:
     - mapping: ручное преобразование значений в числа ("Sex")
-    - one_hot: one-hot encoding через pd.get_dummies ("Embarked", "Initials")
+    - one_hot: one-hot encoding через sklearn ("Embarked", "Initials")
     """
     df = df.copy()
 
@@ -231,18 +240,28 @@ def encode_categorical_columns(df, cfg):
                     f"Unknown values in column {column}: {unknown_values}"
                 )
             df[column] = df[column].map(mapping).astype(int)
-    
+
+    # Исходные категориальные колонки заменяются числовыми бинарными признаками,
+    # которые модель может использовать для обучения.
     if cfg.one_hot.enabled:
-        for column in cfg.one_hot.columns:
-            if column not in df.columns:
-                raise ValueError(f"Column for one-hot encoding not found: {column}")
-        
-        df = pd.get_dummies(
-            df,
-            columns=list(cfg.one_hot.columns), # OmegaConf ListConfig -> обычный Python list
-            drop_first=cfg.one_hot.drop_first,
-            dtype=int,
+        one_hot_columns = state["one_hot_columns"]
+        encoder = state["one_hot_encoder"]
+
+        # содержит числа 0 и 1
+        encoded_values = encoder.transform(df[one_hot_columns])
+        encoded_columns = encoder.get_feature_names_out(one_hot_columns)
+
+        # Преобразуем NumPy-массив обратно в pandas DataFrame.
+        encoded_df = pd.DataFrame(
+            encoded_values,
+            columns=encoded_columns,
+            # сохраняет исходные индексы строк.
+            index=df.index,
         )
+    # Удаляем исходные категориальные колонки.
+    df = df.drop(columns=one_hot_columns)
+    # означает: приклеить encoded_df справа от df.
+    df = pd.concat([df, encoded_df], axis=1)
     
     return df
 
@@ -276,7 +295,126 @@ def select_model_features(df, cfg):
     
     return df[feature_columns]
 
-def preprocess(df, cfg):
+# -----------------------------------------------------------------------------------------
+
+def fit_preprocessing(df, cfg):
+    """
+    Вычисляет и сохраняет параметры предобработки на ОБУЧАЮЩИХ данных.
+
+    Эта функция нужна, чтобы правила preprocessing были найдены ТОЛЬКО на train
+    и затем ОДИНАКОВО ПРИМЕНЯЛИСЬ к validation/test. Например, здесь считаются
+    значения для заполнения пропусков, границы бинов и другие параметры,
+    КОТОРЫЕ НЕ ДОЛЖНЫ ПЕРЕСЧИТЫВАТЬСЯ ЗАНОВО НА НОВЫХ ДАННЫХ.
+
+    Args:
+        df: Обучающий DataFrame, на котором вычисляются параметры preprocessing.
+        cfg: Конфигурация preprocessing.
+
+    Returns:
+        dict: Словарь с сохранёнными параметрами preprocessing.
+    """
+    fit_df = df.copy()
+
+    state = {}
+
+    if cfg.preprocessing.embarked.enabled:
+        if cfg.preprocessing.embarked.strategy == "most_frequent":
+            state["embarked_fill_value"] = df["Embarked"].mode().iloc[0]
+            fit_df["Embarked"] = fit_df["Embarked"].fillna(state["embarked_fill_value"])
+    
+    if cfg.preprocessing.initial.enabled:
+        fit_df = create_initial_column(fit_df, cfg.preprocessing.initial)
+
+    # Фиксируем OHE с помощью sklearn
+    if cfg.preprocessing.categorical_encoding.one_hot.enabled:
+        one_hot_columns = list(cfg.preprocessing.categorical_encoding.one_hot.columns)
+
+        encoder = OneHotEncoder(
+            # вернуть обычный NumPy-массив,
+            # на больших данных с большим числом категорий
+            # лучше часто оставлять значение по умолчанию.
+            sparse_output=False,
+            # Для неизвестного значения encoder просто поставит нули
+            # во всех one-hot колонках этого признака.
+            handle_unknown="ignore",
+            dtype=int,
+        )
+
+        encoder.fit(fit_df[one_hot_columns])
+
+        state["one_hot_encoder"] = encoder
+        state["one_hot_columns"] = one_hot_columns
+
+    if cfg.preprocessing.fare.enabled:
+        if cfg.preprocessing.fare.strategy == "median":
+            state["fare_fill_value"] = fit_df["Fare"].median()
+        else:
+            raise ValueError(f"Unknown fare strategy: {cfg.preprocessing.fare.strategy}")
+
+    if cfg.preprocessing.fare_binning.enabled:
+        if cfg.preprocessing.fare_binning.strategy == "quantile":
+            # Будем сохранять только границы интервалов.
+            _, fare_bins = pd.qcut(
+                df["Fare"],
+                q=cfg.preprocessing.fare_binning.num_bins,
+                labels=False,
+                retbins=True, # Когда True будет возвращаться два значения:
+                # fare_groups — номер квантильной группы для каждого пассажира - не интересует;
+                # fare_bins — реальные границы этих групп.
+                duplicates="drop",
+            )
+            # На случай если в тесте будет пассажиры превышающий интервал (дороже/дешевле билет),
+            # меньше чем бесплатно "0" он заплатить не может.
+            # Пример: fare_bins = [0, 7.9, 14.5, 31.0, inf]
+            fare_bins[0] = 0
+            fare_bins[-1] = float("inf")
+            state["fare_bins"] = fare_bins
+    
+    if cfg.preprocessing.age.enabled:
+        if cfg.preprocessing.age.strategy == "mean_by_title":
+            age_means = (
+                fit_df.groupby(cfg.preprocessing.initial.output_column)["Age"]
+                .mean()
+                .to_dict()
+            )
+        state["age_means_by_initial"] = age_means
+        # Заполнили df средними значениями, их же тоже сохранили в state.
+        fit_df["Age"] = fit_df["Age"].fillna(
+            fit_df[cfg.preprocessing.initial.output_column].map(age_means)
+        )
+
+    # Теперь разбираемся с фиксацией bins для age.
+    if cfg.preprocessing.age_binning.enabled:
+        if cfg.preprocessing.age_binning.strategy == "equal_width":
+            _, age_bins = pd.cut(
+                fit_df["Age"],
+                bins=cfg.preprocessing.age_binning.num_bins,
+                labels=False,
+                retbins=True,
+                include_lowest=True,
+            )
+        elif cfg.preprocessing.age_binning.strategy == "quantile":
+            _, age_bins = pd.qcut(
+            fit_df["Age"],
+            q=cfg.preprocessing.age_binning.num_bins,
+            labels=False,
+            retbins=True,
+            duplicates="drop",
+        )
+        else:
+            raise ValueError(
+                f"Unknown age binning strategy: {cfg.preprocessing.age_binning.strategy}"
+            ) 
+
+        age_bins[0] = 0
+        age_bins[-1] = float("inf")
+        state["age_bins"] = age_bins
+
+
+    return state
+
+
+def preprocess(df, cfg, state):
     """
     Применяет полный набор шагов предобработки к исходным данным:
         1. fill Embarked
@@ -298,28 +436,31 @@ def preprocess(df, cfg):
     df = df.copy() 
 
     if cfg.preprocessing.embarked.enabled:
-        df = fill_embarked(df, cfg.preprocessing.embarked)
+        df = fill_embarked(df, cfg.preprocessing.embarked, state)
     
     if cfg.preprocessing.initial.enabled:
         df = create_initial_column(df, cfg.preprocessing.initial)
 
     if cfg.preprocessing.age.enabled:
         df = fill_age_column(
-            df, strategy = cfg.preprocessing.age.strategy,
+            df, strategy = cfg.preprocessing.age.strategy, state = state
         )
 
     if cfg.preprocessing.age_binning.enabled: 
-        df = create_age_band(df, cfg.preprocessing.age_binning)
+        df = create_age_band(df, cfg.preprocessing.age_binning, state)
     
     if cfg.preprocessing.family_features.enabled:
         df = create_family_features(df, cfg.preprocessing.family_features)
     
+    if cfg.preprocessing.fare.enabled:
+        df = fill_fare_column(df, cfg.preprocessing.fare, state)
+
     if cfg.preprocessing.fare_binning.enabled:
-        df = create_fare_range(df, cfg.preprocessing.fare_binning)
+        df = create_fare_range(df, cfg.preprocessing.fare_binning, state)
     
     if cfg.preprocessing.categorical_encoding.enabled:
         df = encode_categorical_columns(
-            df, cfg.preprocessing.categorical_encoding
+            df, cfg.preprocessing.categorical_encoding, state
             )
 
     df = select_model_features(df, cfg.preprocessing.features)
