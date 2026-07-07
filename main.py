@@ -34,9 +34,8 @@ def main():
         overlap = set(train_groups) & set(valid_groups)
         print("Family overlap:", len(overlap)) # должно быть "0"
 
-        assert len(overlap) == 0, (
-            "Data leak: family appears in both train and validation"
-        )
+        if len(overlap) != 0:
+            raise ValueError("Data leak: family appears in both train and validation")
 # ------------------Конец разбиения на train и validation folds.-------------------------
 
     state = fit_preprocessing(train_raw, cfg)
