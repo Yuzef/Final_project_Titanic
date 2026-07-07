@@ -12,21 +12,28 @@
 Final_project_Titanic/
 ├── configs/                  — все настройки эксперимента.
 │   └── config.py 
-├── src/
-│   ├── data.py              — загрузка данных
+├── utils/
+│   ├── validation.py        — функции разбиения данных.
 │   ├── preprocessing.py     — функции обработки данных.
-│   ├── models.py            — выбор модели по названию из config.
-│   └── train.py             — обучение, валидация, сохранение результатов.
+│   └──
+├── data_raw/                - сырые данные
+│   ├── train.csv
+│   ├── test.csv
+│   └── gender_submission.csv
+│   
 ├── outputs/
 │   ├── 
 │   ├── 
 │   ├── 
 │   └── 
 ├── main.py                  — точка входа, запускается одной кнопкой.
-├── train.csv
-├── test.csv
+├── 
+├── 
 ├── EDA.ipynb
-├── requirements.txt
+├── environment.yml         - all dependencies. файл окружения для conda.
+                              conda env create -f environment.yml
+├── requirements.txt        - список Python-пакетов для pip.
+                              pip install -r requirements.txt
 └── README.md
 
 
@@ -37,6 +44,8 @@ config.py
 main.py
   ↓
 загрузка данных
+  ↓
+validation.py разбиение данных
   ↓
 preprocessing.py
   ↓

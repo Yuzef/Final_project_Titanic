@@ -7,9 +7,28 @@ config_dict = {
         "num_classes": 2 
     },
     "paths": {
-        "train_csv": "train.csv",
+        "train_csv": "data_raw\train.csv",
         "test_csv": "test.csv",
         "output_dir": "outputs"
+    },
+    "validation": {
+        "enabled": True,
+        "strategy": "stratified_group_kfold",  # "stratified_kfold"
+        "n_splits": 5,
+        "shuffle": True,
+        "target_column": "Survived",
+        "group_by": "family",
+        "family": {
+            "surname_column": "Name",
+            "subsp_column": "SibSp",
+            "parch_column": "Parch",
+            "passenger_id_column": "PassengerId",
+            "solo_as_unique_group": True,
+            # Если человек путешествует один,
+            # лучше считать его отдельной “семьёй”,
+            # иначе можно случайно объединить незнакомых людей
+            # с одинаковой фамилией.
+        }
     },
     "preprocessing": {
         "embarked": {
