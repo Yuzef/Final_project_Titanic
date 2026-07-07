@@ -1,8 +1,8 @@
 import pandas as pd
 
-from config import config
-from src.preprocessing import preprocess, fit_preprocessing
-from src.validation import make_validation_splits
+from configs.config import config
+from utils.preprocessing import preprocess, fit_preprocessing
+from utils.validation import make_validation_splits
 
 
 def main():

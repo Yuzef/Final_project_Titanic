@@ -7,8 +7,8 @@ config_dict = {
         "num_classes": 2 
     },
     "paths": {
-        "train_csv": "data_raw\train.csv",
-        "test_csv": "test.csv",
+        "train_csv": "data_raw/train.csv",
+        "test_csv": "data_raw/test.csv",
         "output_dir": "outputs"
     },
     "validation": {
@@ -20,7 +20,7 @@ config_dict = {
         "group_by": "family",
         "family": {
             "surname_column": "Name",
-            "subsp_column": "SibSp",
+            "sibsp_column": "SibSp",
             "parch_column": "Parch",
             "passenger_id_column": "PassengerId",
             "solo_as_unique_group": True,
