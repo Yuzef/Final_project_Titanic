@@ -119,6 +119,7 @@ config_dict = {
     },
     "modeling": {
         "enabled": True,
+        # Приведение всех числовых признаков к одному масштабу.
         "scale_features": True,
 
         "models": [
@@ -166,6 +167,8 @@ config_dict = {
                     "penalty": "elasticnet",
                     "C": 1.0, # 0.1 , 10
                     "solver": "saga",
+                    # 0 <= l1_ratio <= 1 
+                    # определяет баланс между L1 и L2.
                     "l1_ratio": 0.5,
                     "max_iter": 5000,
                 },
