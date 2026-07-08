@@ -9,7 +9,7 @@ config_dict = {
     "paths": {
         "train_csv": "data_raw/train.csv",
         "test_csv": "data_raw/test.csv",
-        "output_dir": "outputs"
+        "trained_models": "trained_models"
     },
     "validation": {
         "enabled": True,
@@ -120,6 +120,7 @@ config_dict = {
     "modeling": {
         "enabled": True,
         # Приведение всех числовых признаков к одному масштабу.
+        # StandardScaler(): x_scaled = (x - mean) / std
         "scale_features": True,
 
         "models": [
@@ -179,6 +180,13 @@ config_dict = {
     "metric": {
         "name": "accuracy"
     },
+    "inference": {
+        "model_artifact": "trained_models/logreg_l2.joblig",
+        "id_column": "PassengerId",
+        "prediction_column": "Survived",
+        "submission_path": "submission.csv",
+    },
+    
     "training": {
         "num_epochs": 10,
         "early_stopping_epochs": 5,

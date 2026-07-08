@@ -5,6 +5,11 @@ from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from pathlib import Path
+import joblib
+
+from utils.preprocessing import fit_preprocessing, preprocess
+
 def get_enabled_models(cfg):
     """
     Возвращает только те модели из config, у которых enabled=True.
@@ -42,7 +47,7 @@ def evaluate_model(model, X_valid, y_valid, cfg):
     """
     Считает метрики на validation-части fold'а.
     """
-    metric_name = cfg.metric
+    metric_name = cfg.metric.name
 
     if metric_name == "accuracy":
         predictions = model.predict(X_valid)
@@ -90,18 +95,24 @@ def run_modeling(df, cfg, folds_iterator):
                 **metrics,
             }
 
-            result.append(result)
+            results.append(result)
     
     results_df = pd.DataFrame(results)
 
     summary = {
         results_df
         # std - покажет разброс между folds.
-        .groupby("model_name")["accuracy"].agg(["mean", "std"])
+        .groupby("model_name")["score"].agg(["mean", "std"])
     }
 
     return results_df, summary
 
+
+def save_model_artifact(artifact, cfg, model_name):
+    """
+    Сохраняет обученную модель и preprocessing_state через joblib.
+    """
+    
 
 
 
