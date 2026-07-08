@@ -117,7 +117,65 @@ config_dict = {
         },
         "save_processed": False   # Потом поставлю True
     },
+    "modeling": {
+        "enabled": True,
+        "scale_features": True,
 
+        "models": [
+            {
+                "name": "logistic_regression_no_regularization",
+                "enabled": True,
+                "type": "logistic_regression",
+                "params": {
+                    "penalty": None,
+                    "solver": "lbfgs",
+                    "max_iter": 5000,
+                },
+            }, 
+            {
+                "name": "logreg_l1",
+                "enabled": True,
+                "type": "logistic_regression",
+                "params": {
+                    "penalty": "l1",
+                    # C - обратная сила регуляризации.
+                    # = 1/λ
+                    "C": 1.0,
+                    "solver": "liblinear",
+                    "max_iter": 5000,
+                },
+
+            },
+            {
+                "name": "logreg_l2",
+                "enabled": True,
+                "type": "logistic_regression",
+                "params": {
+                    "penalty": "l2",
+                    "C": 1.0, # 0.1 , 10
+                    "solver": "lbfgs",
+                    "max_iter": 5000,
+                },
+
+            },
+            {
+                "name": "logreg_elasticnet",
+                "enabled": True,
+                "type": "logistic_regression",
+                "params": {
+                    "penalty": "elasticnet",
+                    "C": 1.0, # 0.1 , 10
+                    "solver": "saga",
+                    "l1_ratio": 0.5,
+                    "max_iter": 5000,
+                },
+
+            },
+        ]
+    },
+    "metric": {
+        "name": "accuracy"
+    },
     "training": {
         "num_epochs": 10,
         "early_stopping_epochs": 5,
