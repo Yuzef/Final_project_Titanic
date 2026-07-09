@@ -61,6 +61,61 @@ def evaluate_model(model, X_valid, y_valid, cfg):
         "score": score,
     }
 
+def save_model_artifact(artifact, cfg, model_name):
+    """
+    Сохраняет artifact обученного эксперимента в .joblib файл.
+
+    Artifact содержит всё, что нужно для последующего inference:
+    обученную модель, preprocessing_state, параметры модели
+    и служебную информацию об эксперименте.
+    """
+
+    output_dir = Path(cfg.paths.trained_models)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    artifact_path = output_dir / f"{model_name}.joblib"
+
+    joblib.dump(artifact, artifact_path)
+
+    return artifact_path
+
+def train_and_save_full_model(df, cfg, model_cfg):
+    """
+    Обучает выбранную модель на всём train.csv и сохраняет готовый artifact.
+
+    Эта функция используется после cross-validation:
+    fold'ы нужны для оценки качества, а здесь модель заново обучается на всех
+    размеченных данных, чтобы сохранённый artifact можно было напрямую
+    использовать для inference.
+    """
+    preprocessing_state = fit_preprocessing(df, cfg)
+
+    X_train = preprocess(df, cfg, preprocessing_state)
+    y_train = df[cfg.validation.target_column]
+
+    model = build_model(model_cfg, cfg)
+    model.fit(X_train, y_train)
+
+    artifact = {
+        "model": model,
+        "preprocessing_state": preprocessing_state,
+        "model_name": model_cfg.name,
+        "model_type": model_cfg.type,
+        "model_params": dict(model_cfg.params),
+        "feature_columns": list(X_train.columns),
+        "metric_name": cfg.metric.name,
+        "seed": cfg.general.seed,
+    }
+    
+    artifact_path = save_model_artifact(
+        artifact = artifact,
+        cfg = cfg,
+        model_name = model_cfg.name,
+    )
+
+    return artifact_path
+
+
 def run_modeling(df, cfg, folds_iterator):
     """
     Запускает все enabled-модели на всех fold'ах.
@@ -85,6 +140,7 @@ def run_modeling(df, cfg, folds_iterator):
                 model,
                 fold_data["X_valid"],
                 fold_data["y_valid"],
+                cfg,
             )
 
             result = {
@@ -99,20 +155,27 @@ def run_modeling(df, cfg, folds_iterator):
     
     results_df = pd.DataFrame(results)
 
-    summary = {
+    summary = (
         results_df
         # std - покажет разброс между folds.
-        .groupby("model_name")["score"].agg(["mean", "std"])
-    }
+        .groupby("model_name")["score"]
+        .agg(["mean", "std"])
+    )
 
-    return results_df, summary
+    artifact_paths = {}
+
+    for model_cfg in enabled_models:
+        artifact_path = train_and_save_full_model(
+            df=df,
+            cfg=cfg,
+            model_cfg=model_cfg,
+        )
+        artifact_paths[model_cfg.name] = artifact_path
+
+    return results_df, summary, artifact_paths
 
 
-def save_model_artifact(artifact, cfg, model_name):
-    """
-    Сохраняет обученную модель и preprocessing_state через joblib.
-    """
-    
+
 
 
 

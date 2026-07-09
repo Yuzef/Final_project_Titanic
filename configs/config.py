@@ -181,7 +181,7 @@ config_dict = {
         "name": "accuracy"
     },
     "inference": {
-        "model_artifact": "trained_models/logreg_l2.joblig",
+        "model_name": "logreg",
         "id_column": "PassengerId",
         "prediction_column": "Survived",
         "submission_path": "submission.csv",
