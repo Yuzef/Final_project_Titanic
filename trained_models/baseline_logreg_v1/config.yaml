@@ -129,11 +129,12 @@ modeling:
 metric:
   name: accuracy
 inference:
+  enabled: true
   model_name: logreg_l2
   use_best_model: true
   id_column: PassengerId
   prediction_column: Survived
-  submission_path: submission.csv
+  submission_dir: submissions
 logging:
   enabled: true
   save_config: true

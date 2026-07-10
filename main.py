@@ -4,6 +4,7 @@ from configs.config import config
 from utils.modeling import run_modeling
 from utils.train_validation_splitting import iter_preprocessed_folds, print_fold_summary
 from utils.experiment_logging import save_experiment_logs
+from utils.inference import create_submission_from_artifact
 
 def main():
     cfg = config
@@ -34,6 +35,18 @@ def main():
         best_model_info=best_model_info,
         cfg=cfg,
     )
+
+    if cfg.inference.enabled:
+        test_df = pd.read_csv(cfg.paths.test_csv)
+
+        submission, submission_path = create_submission_from_artifact(
+            test_df=test_df,
+            cfg=cfg,
+       )
+
+        print("\nSubmission saved:")
+        print(submission_path)
+        print(submission.head())    
 
 
 if __name__ == "__main__":

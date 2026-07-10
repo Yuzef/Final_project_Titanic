@@ -36,18 +36,30 @@ def create_submission_from_artifact(test_df, cfg):
     model = artifact["model"]
     preprocessing_state = artifact["preprocessing_state"]
 
+    model_name = artifact["model_name"]
+
     X_test = preprocess(test_df, cfg, preprocessing_state)
 
-    predictions = model.predict(X_test)
+    predictions = model.predict(X_test)  
 
     submission = pd.DataFrame({
         cfg.inference.id_column: test_df[cfg.inference.id_column],
         cfg.inference.prediction_column: predictions.astype(int)
     })
 
-    submission.to_csv(cfg.inference.submission_path, index=False)
+    experiment_dir = (
+        Path(cfg.paths.trained_models)
+        / cfg.general.experiment_name
+    )
 
-    return submission, cfg.inference.submission_path
+    submission_dir = experiment_dir / cfg.inference.submission_dir
+    submission_dir.mkdir(parents=True, exist_ok=True)
+
+    submission_path = submission_dir / f"{model_name}_submission.csv"
+
+    submission.to_csv(submission_path, index=False)
+
+    return submission, submission_path
 
 
 

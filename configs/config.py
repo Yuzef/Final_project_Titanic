@@ -181,12 +181,13 @@ config_dict = {
         "name": "accuracy"
     },
     "inference": {
+        "enabled": True,
         "model_name": "logreg_l2", # если выбрать inference вручную
                                 # по названию .joblib файла.
         "use_best_model": True, # выберет _BEST .joblib 
         "id_column": "PassengerId",
         "prediction_column": "Survived",
-        "submission_path": "submission.csv",
+        "submission_dir": "submissions",
     },
     "logging": {
         "enabled": True,
