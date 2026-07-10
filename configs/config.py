@@ -196,6 +196,7 @@ config_dict = {
         "save_summary": True,
         "save_artifact_paths": True, 
         "save_best_model": True,
+        "save_readable_report": True,
     },
     
     "training": {

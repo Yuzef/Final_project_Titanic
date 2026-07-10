@@ -1,6 +1,7 @@
 from omegaconf import OmegaConf
 import pandas as pd
 from pathlib import Path
+from pathlib import Path
 
 
 def save_experiment_logs(results_df, summary, artifact_paths, best_model_info, cfg):
@@ -65,6 +66,37 @@ def save_experiment_logs(results_df, summary, artifact_paths, best_model_info, c
         saved_paths["best_model"] = best_model_path
     
     return saved_paths
+
+def save_readable_report(results_df, summary, best_model_info, experiment_dir):
+    """
+    Сохраняет человекочитаемый отчёт по результатам эксперимента.
+    """
+    report_path = experiment_dir / "experiment_report.txt"
+
+    lines = []
+
+    for model_name, model_results in results_df.groupby("model_name"):
+        lines.append(f"{model_name}:")
+
+        if model_name == best_model_info["model_name"]:
+            lines.append("BEST MODEL")
+
+        model_type = model_results["model_type"].iloc[0]
+        params = model_results["params"].iloc[0]
+
+        lines.append(f"model_type: {model_type}")
+        lines.append(f"params: {params}")
+
+        for row in model_results.sort_values("fold").itertuples(index=False):
+            lines.append(
+                f"fold {row.fold + 1}: {row.metric} = {row.score:.6f}"
+            )
+        
+        summary_row = summary.loc[model_name]
+
+        lines.append(f"mean")
+
+    return report_path
 
 
 
