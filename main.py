@@ -3,7 +3,7 @@ import pandas as pd
 from configs.config import config
 from utils.modeling import run_modeling
 from utils.train_validation_splitting import iter_preprocessed_folds, print_fold_summary
-
+from utils.experiment_logging import save_experiment_logs
 
 def main():
     cfg = config
@@ -16,6 +16,7 @@ def main():
         folds_iterator=iter_preprocessed_folds,
     )
 
+
     print("\nFold results:")
     print(results_df)
 
@@ -26,6 +27,13 @@ def main():
     for model_name, artifact_path in artifact_paths.items():
         print(f"Model name: {model_name}, Path: {artifact_path}")
 
+    saved_log_paths = save_experiment_logs(
+        results_df=results_df,
+        summary=summary,
+        artifact_paths=artifact_paths,
+        best_model_info=best_model_info,
+        cfg=cfg,
+    )
 
 
 if __name__ == "__main__":

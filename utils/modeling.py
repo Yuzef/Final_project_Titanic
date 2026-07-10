@@ -10,6 +10,8 @@ import joblib
 
 from utils.preprocessing import fit_preprocessing, preprocess
 
+import shutil
+
 def get_enabled_models(cfg):
     """
     Возвращает только те модели из config, у которых enabled=True.
@@ -72,7 +74,7 @@ def save_model_artifact(artifact, cfg, model_name):
 
     output_dir = Path(
         Path(cfg.paths.trained_models)
-        /cfg.paths.trained_models
+        /cfg.general.experiment_name
         )
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -177,6 +179,13 @@ def run_modeling(df, cfg, folds_iterator):
     
     best_model_info = select_best_model(summary)
 
+    best_artifact_path = save_best_model_copy(
+        artifact_paths=artifact_paths,
+        best_model_info=best_model_info,
+    )
+
+    best_model_info["best_artifact_path"] = best_artifact_path
+
     return results_df, summary, artifact_paths, best_model_info
 
 def select_best_model(summary):
@@ -201,7 +210,22 @@ def select_best_model(summary):
         "std_score": best_row["std"],
     }
 
+def save_best_model_copy(artifact_paths, best_model_info):
+    """
+    Создаёт копию лучшего artifact с суффиксом _BEST перед .joblib.
+    """
+    best_model_name = best_model_info["model_name"]
+    source_path = artifact_paths[best_model_name]
 
+    # Метод with_name() заменяет только имя файла, оставляя папку.
+    best_model_path = source_path.with_name(
+        # stem — имя файла без расширения
+        f"{source_path.stem}_BEST{source_path.suffix}"
+    )
+
+    shutil.copy2(source_path, best_model_path)
+
+    return best_model_path
 
 
 

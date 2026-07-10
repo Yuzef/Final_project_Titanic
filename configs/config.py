@@ -181,10 +181,20 @@ config_dict = {
         "name": "accuracy"
     },
     "inference": {
-        "model_name": "logreg",
+        "model_name": "logreg_l2", # если выбрать inference вручную
+                                # по названию .joblib файла.
+        "use_best_model": True, # выберет _BEST .joblib 
         "id_column": "PassengerId",
         "prediction_column": "Survived",
         "submission_path": "submission.csv",
+    },
+    "logging": {
+        "enabled": True,
+        "save_config": True,
+        "save_fold_results": True,
+        "save_summary": True,
+        "save_artifact_paths": True, 
+        "save_best_model": True,
     },
     
     "training": {

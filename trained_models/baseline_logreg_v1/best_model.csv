@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+logistic_regression_no_regularization,0.8263158465284389,0.023848403532598733,trained_models/baseline_logreg_v1/logistic_regression_no_regularization_BEST.joblib

@@ -1,0 +1,161 @@
+general:
+  experiment_name: baseline_logreg_v1
+  seed: 1027309
+  num_classes: 2
+paths:
+  train_csv: data_raw/train.csv
+  test_csv: data_raw/test.csv
+  trained_models: trained_models
+validation:
+  enabled: true
+  strategy: stratified_group_kfold
+  n_splits: 5
+  shuffle: true
+  target_column: Survived
+  group_by: family
+  family:
+    surname_column: Name
+    sibsp_column: SibSp
+    parch_column: Parch
+    passenger_id_column: PassengerId
+    solo_as_unique_group: true
+preprocessing:
+  embarked:
+    enabled: true
+    strategy: most_frequent
+  age:
+    enabled: true
+    strategy: mean_by_title
+  initial:
+    enabled: true
+    output_column: Initial
+  age_binning:
+    enabled: true
+    strategy: equal_width
+    output_column: Age_band
+    num_bins: 5
+    drop_original: true
+  categorical_encoding:
+    enabled: true
+    mapping:
+      enabled: true
+      columns:
+        Sex:
+          male: 0
+          female: 1
+    one_hot:
+      enabled: true
+      columns:
+      - Embarked
+      - Initial
+      drop_first: false
+  family_features:
+    enabled: true
+    family_size_column: Family_Size
+    alone_column: Alone
+    drop_original: false
+  fare:
+    enabled: true
+    strategy: median
+  fare_binning:
+    enabled: true
+    strategy: quantile
+    output_column: Fare_Range
+    num_bins: 4
+    drop_original: true
+  features:
+    given_columns:
+    - PassengerId
+    - Survived
+    - Pclass
+    - Name
+    - Sex
+    - Age
+    - SibSp
+    - Parch
+    - Ticket
+    - Fare
+    - Cabin
+    - Embarked
+    use_columns:
+    - Pclass
+    - Sex
+    - Age_band
+    - SibSp
+    - Parch
+    - Fare_Range
+    - Family_Size
+    - Alone
+    include_prefixes:
+    - Embarked_
+    - Initial_
+  save_processed: false
+modeling:
+  enabled: true
+  scale_features: true
+  models:
+  - name: logistic_regression_no_regularization
+    enabled: true
+    type: logistic_regression
+    params:
+      penalty: null
+      solver: lbfgs
+      max_iter: 5000
+  - name: logreg_l1
+    enabled: true
+    type: logistic_regression
+    params:
+      penalty: l1
+      C: 1.0
+      solver: liblinear
+      max_iter: 5000
+  - name: logreg_l2
+    enabled: true
+    type: logistic_regression
+    params:
+      penalty: l2
+      C: 1.0
+      solver: lbfgs
+      max_iter: 5000
+  - name: logreg_elasticnet
+    enabled: true
+    type: logistic_regression
+    params:
+      penalty: elasticnet
+      C: 1.0
+      solver: saga
+      l1_ratio: 0.5
+      max_iter: 5000
+metric:
+  name: accuracy
+inference:
+  model_name: logreg_l2
+  use_best_model: true
+  id_column: PassengerId
+  prediction_column: Survived
+  submission_path: submission.csv
+logging:
+  enabled: true
+  save_config: true
+  save_fold_results: true
+  save_summary: true
+  save_artifact_paths: true
+  save_best_model: true
+training:
+  num_epochs: 10
+  early_stopping_epochs: 5
+  Ir: 0.0001
+  mixed_precision: true
+  device: cuda
+  save_best: true
+  save_last: false
+  drop_last: true
+dataloader_params:
+  batch_size: 64
+  num_workers: 8
+  pin_memory: false
+  persistent_workers: true
+  shuffle: true
+  drop_last: true
+loss:
+  params: {}
