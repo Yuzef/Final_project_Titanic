@@ -1,17 +1,30 @@
 import pandas as pd
 
 from configs.config import config
-from utils.preprocessing import preprocess, fit_preprocessing
+from utils.modeling import run_modeling
 from utils.train_validation_splitting import iter_preprocessed_folds, print_fold_summary
 
 
 def main():
     cfg = config
 
-    df = pd.read_csv(cfg.paths.train_csv)
+    train_df = pd.read_csv(cfg.paths.train_csv)
 
-    for fold_data in iter_preprocessed_folds(df, cfg):
-        print_fold_summary(fold_data)
+    results_df, summary, artifact_paths = run_modeling(
+        df=train_df,
+        cfg=cfg,
+        folds_iterator=iter_preprocessed_folds,
+    )
+
+    print("\nFold results:")
+    print(results_df)
+
+    print("\nSummary")
+    print(summary)
+
+    print("\nSaved artifacts:")
+    for model_name, artifact_path in artifact_paths.items():
+        print(f"Model name: {model_name}, Path: {artifact_path}")
 
 
 
@@ -21,20 +34,7 @@ if __name__ == "__main__":
 
 
 
-# Проверка препроцессинга.
-# df = pd.read_csv(config.paths.train_csv)
 
-# # Fit preprocessing only on train, then reuse this state for validation/test.
-# state = fit_preprocessing(df, config)
-# processed_df = preprocess(df, config, state)
-
-
-# print(df.isna().sum())
-# print("---------------------")
-# print(processed_df.isna().sum())
-# print("---------------------")
-# print(processed_df.shape)
-# print(processed_df.columns.tolist())
 
 
 

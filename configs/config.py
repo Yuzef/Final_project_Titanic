@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "Titanic",
+        "experiment_name": "baseline_logreg_v1",
         "seed": 0xFACED,
         "num_classes": 2 
     },
