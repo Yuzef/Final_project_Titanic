@@ -10,7 +10,7 @@ def main():
 
     train_df = pd.read_csv(cfg.paths.train_csv)
 
-    results_df, summary, artifact_paths = run_modeling(
+    results_df, summary, artifact_paths, best_model_info = run_modeling(
         df=train_df,
         cfg=cfg,
         folds_iterator=iter_preprocessed_folds,

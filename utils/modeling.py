@@ -70,7 +70,10 @@ def save_model_artifact(artifact, cfg, model_name):
     и служебную информацию об эксперименте.
     """
 
-    output_dir = Path(cfg.paths.trained_models)
+    output_dir = Path(
+        Path(cfg.paths.trained_models)
+        /cfg.paths.trained_models
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     artifact_path = output_dir / f"{model_name}.joblib"
@@ -171,9 +174,32 @@ def run_modeling(df, cfg, folds_iterator):
             model_cfg=model_cfg,
         )
         artifact_paths[model_cfg.name] = artifact_path
+    
+    best_model_info = select_best_model(summary)
 
-    return results_df, summary, artifact_paths
+    return results_df, summary, artifact_paths, best_model_info
 
+def select_best_model(summary):
+    """
+    Выбирает лучшую модель по summary.
+
+    Критерий:
+    1. максимальный mean score;
+    2. при равенстве mean — минимальный std.
+    """
+    sorted_summary = summary.sort_values(
+        by=["mean", "std"],
+        ascending=[False, True],
+    )
+
+    best_model_name = sorted_summary.index[0]
+    best_row = sorted_summary.loc[best_model_name]
+
+    return {
+        "model_name": best_model_name,
+        "mean_score":best_row["mean"],
+        "std_score": best_row["std"],
+    }
 
 
 
