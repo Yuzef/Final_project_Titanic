@@ -65,6 +65,16 @@ def save_experiment_logs(results_df, summary, artifact_paths, best_model_info, c
         best_model_df.to_csv(best_model_path, index=False)
         saved_paths["best_model"] = best_model_path
     
+    if cfg.logging.save_readable_report:
+        report_path = save_readable_report(
+            results_df=results_df,
+            summary=summary,
+            best_model_info=best_model_info,
+            experiment_dir=experiment_dir,
+        )
+
+        saved_paths["readable_report"] = report_path
+
     return saved_paths
 
 def save_readable_report(results_df, summary, best_model_info, experiment_dir):
@@ -94,7 +104,15 @@ def save_readable_report(results_df, summary, best_model_info, experiment_dir):
         
         summary_row = summary.loc[model_name]
 
-        lines.append(f"mean")
+        lines.append(f"mean: {summary_row['mean']:.6f}")
+        lines.append(f"std: {summary_row['std']:.6f}")
+        lines.append("-------------------")
+        lines.append("")
+    
+    report_path.write_text(
+        "\n".join(lines),
+        encoding="utf-8",
+    )
 
     return report_path
 
