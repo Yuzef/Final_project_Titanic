@@ -1,6 +1,7 @@
 import pandas as pd
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -33,15 +34,24 @@ def build_model(model_cfg, cfg):
         params["random_state"] = cfg.general.seed
 
         model = LogisticRegression(**params)
-        if cfg.modeling.scale_features:
+    
+    elif model_cfg.type == "knn":
+        params = dict(model_cfg.params)
+
+        model = KNeighborsClassifier(**params)
+
+
+    else:
+        raise ValueError(f"Unknown model type: {model_cfg.type}")
+    
+    # Для KNN особенно важно!
+    if cfg.modeling.scale_features:
             model = Pipeline(
                 steps=[
                     ("scaler", StandardScaler()),
                     ("model", model),
                 ]
             )
-    else:
-        raise ValueError(f"Unknown model type: {model_cfg.type}")
 
     return model
 

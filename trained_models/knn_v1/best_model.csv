@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+knn_k11_uniform_manhattan,0.8304940053982801,0.019515522765420658,trained_models/knn_v1/knn_k11_uniform_manhattan_BEST.joblib

@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "logreg_v1.9_stratified_kfold_C_01_family_drop_original",
+        "experiment_name": "knn_v1",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -125,9 +125,10 @@ config_dict = {
         "scale_features": True,
 
         "models": [
+            # -------------- LogReg Baseline ----------------
             {
                 "name": "logistic_regression_no_regularization",
-                "enabled": True,
+                "enabled": False,
                 "type": "logistic_regression",
                 "params": {
                     "penalty": None,
@@ -137,7 +138,7 @@ config_dict = {
             }, 
             {
                 "name": "logreg_l1",
-                "enabled": True,
+                "enabled": False,
                 "type": "logistic_regression",
                 "params": {
                     "penalty": "l1",
@@ -151,7 +152,7 @@ config_dict = {
             },
             {
                 "name": "logreg_l2",
-                "enabled": True,
+                "enabled": False,
                 "type": "logistic_regression",
                 "params": {
                     "penalty": "l2",
@@ -163,7 +164,7 @@ config_dict = {
             },
             {
                 "name": "logreg_elasticnet",
-                "enabled": True,
+                "enabled": False,
                 "type": "logistic_regression",
                 "params": {
                     "penalty": "elasticnet",
@@ -176,6 +177,183 @@ config_dict = {
                 },
 
             },
+            # --------------- KNN -----------------------
+            {
+                "name": "knn_k3_uniform_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 3,
+                    # Соседи имеют разный вес: чем сосед ближе,
+                    # тем сильнее он влияет на прогноз.
+                    "weights": "uniform",
+                    # Cпособ, которым KNN понимает, кто “ближайший сосед”.
+                    # euclidean: sqrt(3² + 4²) = 5
+                    # manhattan: |3| + |4| = 7
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k3_distance_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 3,
+                    # Соседи имеют разный вес: чем сосед ближе,
+                    # тем сильнее он влияет на прогноз.
+                    "weights": "distance",
+                    # Cпособ, которым KNN понимает, кто “ближайший сосед”.
+                    # euclidean: sqrt(3² + 4²) = 5
+                    # manhattan: |3| + |4| = 7
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k5_uniform_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 5,
+                    "weights": "uniform",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k5_distance_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 5,
+                    "weights": "distance",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k5_distance_manhattan",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 5,
+                    "weights": "distance",
+                    "metric": "manhattan",
+                }
+
+            },
+            {
+                "name": "knn_k7_distance_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 7,
+                    "weights": "distance",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k7_distance_manhattan",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 7,
+                    "weights": "distance",
+                    "metric": "manhattan",
+                }
+
+            },
+            {
+                "name": "knn_k7_uniform_manhattan",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 7,
+                    "weights": "uniform",
+                    "metric": "manhattan",
+                }
+
+            },
+            {
+                "name": "knn_k7_uniform_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 7,
+                    "weights": "uniform",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k11_uniform_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 11,
+                    "weights": "uniform",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k11_distance_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 11,
+                    "weights": "distance",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k11_uniform_manhattan",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 11,
+                    "weights": "uniform",
+                    "metric": "manhattan",
+                }
+
+            },
+            {
+                "name": "knn_k13_distance_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 13,
+                    "weights": "distance",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k13_uniform_euclidean",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 13,
+                    "weights": "uniform",
+                    "metric": "euclidean",
+                }
+
+            },
+            {
+                "name": "knn_k13_uniform_manhattan",
+                "enabled": True,
+                "type": "knn",
+                "params": {
+                    "n_neighbors": 13,
+                    "weights": "uniform",
+                    "metric": "manhattan",
+                }
+
+            },
+            # ------------------------------------------
         ]
     },
     "metric": {
@@ -199,30 +377,32 @@ config_dict = {
         "save_best_model": True,
         "save_readable_report": True,
     },
+
+
     
-    "training": {
-        "num_epochs": 10,
-        "early_stopping_epochs": 5,
-        "Ir": 1e-4,
-        "mixed_precision": True,
-        "device": "cuda",
-        "save_best": True,
-        "save_last": False,
-        "drop_last": True
-    },
-    "dataloader_params": {
-        "batch_size": 64,
-        "num_workers": 8,
-        "pin_memory": False,
-        "persistent_workers": True,
-        "shuffle": True,
-        "drop_last": True,
-    },
-    "loss": {
-        "params": {
+    # "training": {
+    #     "num_epochs": 10,
+    #     "early_stopping_epochs": 5,
+    #     "Ir": 1e-4,
+    #     "mixed_precision": True,
+    #     "device": "cuda",
+    #     "save_best": True,
+    #     "save_last": False,
+    #     "drop_last": True
+    # },
+    # "dataloader_params": {
+    #     "batch_size": 64,
+    #     "num_workers": 8,
+    #     "pin_memory": False,
+    #     "persistent_workers": True,
+    #     "shuffle": True,
+    #     "drop_last": True,
+    # },
+    # "loss": {
+    #     "params": {
             
-        }
-    }
+    #     }
+    # }
 }
 
 
