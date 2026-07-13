@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+knn_k11_uniform_euclidean,0.8255775305333062,0.03178860759677205,trained_models/knn_v2_stratified_group_kfold/knn_k11_uniform_euclidean_BEST.joblib

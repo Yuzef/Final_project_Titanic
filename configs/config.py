@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "knn_v1",
+        "experiment_name": "knn_v2_stratified_group_kfold",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -13,7 +13,7 @@ config_dict = {
     },
     "validation": {
         "enabled": True,
-        "strategy": "stratified_kfold",  # "stratified_group_kfold"
+        "strategy": "stratified_group_kfold",  # "stratified_kfold" "stratified_group_kfold"
         "n_splits": 5,
         "shuffle": True,
         "target_column": "Survived",
