@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+logreg_l1,0.8271357730211537,0.016370542245354704,trained_models/baseline_logreg_v1.1_stratified_kfold/logreg_l1_BEST.joblib

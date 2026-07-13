@@ -258,10 +258,10 @@ def encode_categorical_columns(df, cfg, state):
             # сохраняет исходные индексы строк.
             index=df.index,
         )
-    # Удаляем исходные категориальные колонки.
-    df = df.drop(columns=one_hot_columns)
-    # означает: приклеить encoded_df справа от df.
-    df = pd.concat([df, encoded_df], axis=1)
+        # Удаляем исходные категориальные колонки.
+        df = df.drop(columns=one_hot_columns)
+        # означает: приклеить encoded_df справа от df.
+        df = pd.concat([df, encoded_df], axis=1)
     
     return df
 

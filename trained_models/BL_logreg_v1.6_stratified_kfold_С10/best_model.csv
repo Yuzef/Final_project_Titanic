@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+logreg_elasticnet,0.8260121775155357,0.020104375414040428,trained_models/BL_logreg_v1.6_stratified_kfold_С10/logreg_elasticnet_BEST.joblib

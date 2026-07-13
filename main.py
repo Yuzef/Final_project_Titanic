@@ -2,7 +2,7 @@ import pandas as pd
 
 from configs.config import config
 from utils.modeling import run_modeling
-from utils.train_validation_splitting import iter_preprocessed_folds, print_fold_summary
+from utils.train_validation_splitting import iter_preprocessed_folds
 from utils.experiment_logging import save_experiment_logs
 from utils.inference import create_submission_from_artifact
 

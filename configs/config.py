@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "baseline_logreg_v1",
+        "experiment_name": "BL",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -13,7 +13,7 @@ config_dict = {
     },
     "validation": {
         "enabled": True,
-        "strategy": "stratified_group_kfold",  # "stratified_kfold"
+        "strategy": "stratified_kfold",  # "stratified_group_kfold"
         "n_splits": 5,
         "shuffle": True,
         "target_column": "Survived",
@@ -102,6 +102,7 @@ config_dict = {
             "use_columns": [    # что используем?
                 "Pclass",
                 "Sex",
+                "Age",
                 "Age_band",     # feature engineering
                 "SibSp",
                 "Parch",
@@ -110,12 +111,12 @@ config_dict = {
                 "Alone",        # feature engineering
             ],
             "include_prefixes": [ # columns after one-hot-encoding
-                "Embarked_",
-                "Initial_",
+            "Embarked_",
+            "Initial_",
             ],
 
         },
-        "save_processed": False   # Потом поставлю True
+        "save_processed": False 
     },
     "modeling": {
         "enabled": True,
@@ -142,7 +143,7 @@ config_dict = {
                     "penalty": "l1",
                     # C - обратная сила регуляризации.
                     # = 1/λ
-                    "C": 1.0,
+                    "C": 0.1,
                     "solver": "liblinear",
                     "max_iter": 5000,
                 },
@@ -154,7 +155,7 @@ config_dict = {
                 "type": "logistic_regression",
                 "params": {
                     "penalty": "l2",
-                    "C": 1.0, # 0.1 , 10
+                    "C": 10.0, # 0.1 , 10
                     "solver": "lbfgs",
                     "max_iter": 5000,
                 },
@@ -166,7 +167,7 @@ config_dict = {
                 "type": "logistic_regression",
                 "params": {
                     "penalty": "elasticnet",
-                    "C": 1.0, # 0.1 , 10
+                    "C": 10.0, # 0.1 , 10
                     "solver": "saga",
                     # 0 <= l1_ratio <= 1 
                     # определяет баланс между L1 и L2.

@@ -1,0 +1,21 @@
+model_name,model_type,fold,params,metric,score
+logistic_regression_no_regularization,logistic_regression,0,"{'penalty': None, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.8268156424581006
+logreg_l1,logistic_regression,0,"{'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}",accuracy,0.8156424581005587
+logreg_l2,logistic_regression,0,"{'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.8268156424581006
+logreg_elasticnet,logistic_regression,0,"{'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}",accuracy,0.8268156424581006
+logistic_regression_no_regularization,logistic_regression,1,"{'penalty': None, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7865168539325843
+logreg_l1,logistic_regression,1,"{'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}",accuracy,0.797752808988764
+logreg_l2,logistic_regression,1,"{'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7865168539325843
+logreg_elasticnet,logistic_regression,1,"{'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}",accuracy,0.7865168539325843
+logistic_regression_no_regularization,logistic_regression,2,"{'penalty': None, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_l1,logistic_regression,2,"{'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}",accuracy,0.7808988764044944
+logreg_l2,logistic_regression,2,"{'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_elasticnet,logistic_regression,2,"{'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}",accuracy,0.7921348314606742
+logistic_regression_no_regularization,logistic_regression,3,"{'penalty': None, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_l1,logistic_regression,3,"{'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}",accuracy,0.8089887640449438
+logreg_l2,logistic_regression,3,"{'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_elasticnet,logistic_regression,3,"{'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}",accuracy,0.7921348314606742
+logistic_regression_no_regularization,logistic_regression,4,"{'penalty': None, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_l1,logistic_regression,4,"{'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}",accuracy,0.7865168539325843
+logreg_l2,logistic_regression,4,"{'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}",accuracy,0.7921348314606742
+logreg_elasticnet,logistic_regression,4,"{'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}",accuracy,0.7921348314606742
