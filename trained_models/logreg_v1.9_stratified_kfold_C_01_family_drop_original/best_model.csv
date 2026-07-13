@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+logistic_regression_no_regularization,0.8282656455966355,0.01487252326106723,trained_models/logreg_v1.9_stratified_kfold_C_01_family_drop_original/logistic_regression_no_regularization_BEST.joblib

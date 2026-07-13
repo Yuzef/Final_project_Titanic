@@ -12,18 +12,17 @@ std: 0.016320
 
 logreg_elasticnet:
 model_type: logistic_regression
-params: {'penalty': 'elasticnet', 'C': 10.0, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}
+params: {'penalty': 'elasticnet', 'C': 0.1, 'solver': 'saga', 'l1_ratio': 0.5, 'max_iter': 5000}
 fold 1: accuracy = 0.826816
-fold 2: accuracy = 0.786517
-fold 3: accuracy = 0.792135
-fold 4: accuracy = 0.792135
-fold 5: accuracy = 0.792135
-mean: 0.797947
-std: 0.016320
+fold 2: accuracy = 0.797753
+fold 3: accuracy = 0.780899
+fold 4: accuracy = 0.780899
+fold 5: accuracy = 0.786517
+mean: 0.794577
+std: 0.019291
 -------------------
 
 logreg_l1:
-BEST MODEL
 model_type: logistic_regression
 params: {'penalty': 'l1', 'C': 0.1, 'solver': 'liblinear', 'max_iter': 5000}
 fold 1: accuracy = 0.815642
@@ -36,13 +35,14 @@ std: 0.014632
 -------------------
 
 logreg_l2:
+BEST MODEL
 model_type: logistic_regression
-params: {'penalty': 'l2', 'C': 10.0, 'solver': 'lbfgs', 'max_iter': 5000}
+params: {'penalty': 'l2', 'C': 0.1, 'solver': 'lbfgs', 'max_iter': 5000}
 fold 1: accuracy = 0.826816
-fold 2: accuracy = 0.786517
-fold 3: accuracy = 0.792135
-fold 4: accuracy = 0.792135
+fold 2: accuracy = 0.808989
+fold 3: accuracy = 0.786517
+fold 4: accuracy = 0.780899
 fold 5: accuracy = 0.792135
-mean: 0.797947
-std: 0.016320
+mean: 0.799071
+std: 0.018735
 -------------------

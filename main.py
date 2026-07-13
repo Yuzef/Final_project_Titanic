@@ -1,13 +1,25 @@
+import argparse
 import pandas as pd
 
+from utils.config_loading import load_config
 from configs.config import config
 from utils.modeling import run_modeling
 from utils.train_validation_splitting import iter_preprocessed_folds
 from utils.experiment_logging import save_experiment_logs
 from utils.inference import create_submission_from_artifact
 
+# CLI-запуск с передачей пути к config.yaml ,
+# если хотим перезапустить какой-то эксперимент.
+# python main.py --config path/to/config.yaml
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", default=None)
+    return parser.parse_args()
+
 def main():
-    cfg = config
+    args = parse_args()
+    cfg = load_config(args.config)
 
     train_df = pd.read_csv(cfg.paths.train_csv)
 

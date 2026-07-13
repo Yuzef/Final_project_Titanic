@@ -338,6 +338,9 @@ def fit_preprocessing(df, cfg):
             # во всех one-hot колонках этого признака.
             handle_unknown="ignore",
             dtype=int,
+            drop="first"
+            if cfg.preprocessing.categorical_encoding.one_hot.drop_first
+            else None,
         )
 
         encoder.fit(fit_df[one_hot_columns])

@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "BL",
+        "experiment_name": "logreg_v1.9_stratified_kfold_C_01_family_drop_original",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -64,14 +64,14 @@ config_dict = {
             "one_hot": {
                 "enabled": True,
                 "columns": ["Embarked", "Initial"],
-                "drop_first": False,   # для LogisticRegression можно попробовать поставить True
+                "drop_first": True,   # для LogisticRegression можно попробовать поставить True
             },
         },
         "family_features": {
             "enabled": True,
             "family_size_column": "Family_Size",
             "alone_column": "Alone",
-            "drop_original": False,      # удалять ли потом SibSp и Parch
+            "drop_original": True,      # удалять ли потом SibSp и Parch
         },
         "fare": { # если в тесте будет пропуск, то заменяем его значением median из train.
             "enabled": True,
@@ -102,10 +102,10 @@ config_dict = {
             "use_columns": [    # что используем?
                 "Pclass",
                 "Sex",
-                "Age",
+                # "Age",
                 "Age_band",     # feature engineering
-                "SibSp",
-                "Parch",
+                # "SibSp",
+                # "Parch",
                 "Fare_Range",   # feature engineering
                 "Family_Size",  # feature engineering
                 "Alone",        # feature engineering

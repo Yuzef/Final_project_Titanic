@@ -1,5 +1,5 @@
 general:
-  experiment_name: BL_logreg_v1.7_stratified_kfold_С01_min_preprocessing
+  experiment_name: logreg_v1.9_stratified_kfold_C_01_family_drop_original
   seed: 1027309
   num_classes: 2
 paths:
@@ -21,7 +21,7 @@ validation:
     solo_as_unique_group: true
 preprocessing:
   embarked:
-    enabled: false
+    enabled: true
     strategy: most_frequent
   age:
     enabled: true
@@ -30,7 +30,7 @@ preprocessing:
     enabled: true
     output_column: Initial
   age_binning:
-    enabled: false
+    enabled: true
     strategy: equal_width
     output_column: Age_band
     num_bins: 5
@@ -44,21 +44,21 @@ preprocessing:
           male: 0
           female: 1
     one_hot:
-      enabled: false
+      enabled: true
       columns:
       - Embarked
       - Initial
-      drop_first: false
+      drop_first: true
   family_features:
-    enabled: false
+    enabled: true
     family_size_column: Family_Size
     alone_column: Alone
-    drop_original: false
+    drop_original: true
   fare:
     enabled: true
     strategy: median
   fare_binning:
-    enabled: false
+    enabled: true
     strategy: quantile
     output_column: Fare_Range
     num_bins: 4
@@ -80,11 +80,13 @@ preprocessing:
     use_columns:
     - Pclass
     - Sex
-    - Age
-    - SibSp
-    - Parch
-    - Fare
-    include_prefixes: []
+    - Age_band
+    - Fare_Range
+    - Family_Size
+    - Alone
+    include_prefixes:
+    - Embarked_
+    - Initial_
   save_processed: false
 modeling:
   enabled: true
