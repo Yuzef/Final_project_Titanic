@@ -124,6 +124,9 @@ config_dict = {
         # Приведение всех числовых признаков к одному масштабу.
         # StandardScaler(): x_scaled = (x - mean) / std
         "scale_features": True,
+        # Использовать все доступные ядра процессора "-1".
+        #n_jobs=6 — использовать ровно 6 ядра.
+        "n_jobs": 6,
 
         "models": [
             # -------------- LogReg Baseline ----------------
@@ -181,7 +184,7 @@ config_dict = {
             # --------------- KNN -----------------------
             {
                 "name": "knn_k3_uniform_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 3,
@@ -197,7 +200,7 @@ config_dict = {
             },
             {
                 "name": "knn_k3_distance_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 3,
@@ -213,7 +216,7 @@ config_dict = {
             },
             {
                 "name": "knn_k5_uniform_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 5,
@@ -224,7 +227,7 @@ config_dict = {
             },
             {
                 "name": "knn_k5_distance_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 5,
@@ -235,7 +238,7 @@ config_dict = {
             },
             {
                 "name": "knn_k5_distance_manhattan",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 5,
@@ -246,7 +249,7 @@ config_dict = {
             },
             {
                 "name": "knn_k7_distance_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 7,
@@ -257,7 +260,7 @@ config_dict = {
             },
             {
                 "name": "knn_k7_distance_manhattan",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 7,
@@ -268,7 +271,7 @@ config_dict = {
             },
             {
                 "name": "knn_k7_uniform_manhattan",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 7,
@@ -279,7 +282,7 @@ config_dict = {
             },
             {
                 "name": "knn_k7_uniform_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 7,
@@ -290,7 +293,7 @@ config_dict = {
             },
             {
                 "name": "knn_k11_uniform_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 11,
@@ -301,7 +304,7 @@ config_dict = {
             },
             {
                 "name": "knn_k11_distance_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 11,
@@ -312,7 +315,7 @@ config_dict = {
             },
             {
                 "name": "knn_k11_uniform_manhattan",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 11,
@@ -323,7 +326,7 @@ config_dict = {
             },
             {
                 "name": "knn_k13_distance_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 13,
@@ -334,7 +337,7 @@ config_dict = {
             },
             {
                 "name": "knn_k13_uniform_euclidean",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 13,
@@ -345,7 +348,7 @@ config_dict = {
             },
             {
                 "name": "knn_k13_uniform_manhattan",
-                "enabled": True,
+                "enabled": False,
                 "type": "knn",
                 "params": {
                     "n_neighbors": 13,
@@ -354,7 +357,59 @@ config_dict = {
                 }
 
             },
-            # ------------------------------------------
+            # ---------------- Random Forest --------------------------
+            {
+                "name": "rf_100_depth_none",
+                "enabled": True,
+                "type": "random_forest",
+                "scale_features": False, # ?????????
+                "params": {
+                    # Сколько деревьев в лесу.
+                    "n_estimators": 100,
+                    "max_depth": None,
+                    # Минимальное количество объектов в узле, необходимое,
+                    # чтобы дерево могло попробовать разделить этот узел.
+                    "min_samples_split": 2,
+                    # Минимум объектов в листе.
+                    "min_samples_leaf": 1,
+                    # Сколько признаков смотреть при каждом разбиении.
+                    # При каждом разбиении узла дерево рассматривает не все признаки,
+                    # а случайно выбранные √N признаков,
+                    # где N — общее количество признаков.
+                    "max_features": "sqrt",
+                    "bootstrap": True,
+                }
+            },
+            {
+                "name": "rf_200_depth_5",
+                "enabled": True,
+                "type": "random_forest",
+                "scale_features": False,
+                "params": {
+                    "n_estimators": 200,
+                    "max_depth": 5,
+                    "min_samples_split": 2,
+                    "min_samples_leaf": 1,
+                    "max_features": "sqrt",
+                    "bootstrap": True,
+                    "n_jobs": -1,
+                }
+            },
+            {
+                "name": "rf_300_depth_7_leaf_2",
+                "enabled": True,
+                "type": "random_forest",
+                "scale_features": False,
+                "params": {
+                    "n_estimators": 300,
+                    "max_depth": 7,
+                    "min_samples_split": 4,
+                   "min_samples_leaf": 2,
+                   "max_features": "sqrt",
+                   "bootstrap": True,
+                   "n_jobs": -1,
+               },
+            },
         ]
     },
     "metric": {
