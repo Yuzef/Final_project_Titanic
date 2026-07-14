@@ -2,6 +2,8 @@ import pandas as pd
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -27,7 +29,6 @@ def get_enabled_models(cfg):
 def build_model(model_cfg, cfg):
     """
     Создаёт sklearn-модель по настройкам из config.
-    Пока поддерживаем только LogisticRegression.
     """
     if model_cfg.type == "logistic_regression":
         params = dict(model_cfg.params)
@@ -39,8 +40,12 @@ def build_model(model_cfg, cfg):
         params = dict(model_cfg.params)
 
         model = KNeighborsClassifier(**params)
+    
+    elif model_cfg.type == "random_forest":
+        params = dict(model_cfg.params)
+        params["random_state"] = cfg.general.seed
 
-
+        model = RandomForestClassifier(**params)
     else:
         raise ValueError(f"Unknown model type: {model_cfg.type}")
     

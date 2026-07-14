@@ -72,6 +72,7 @@ config_dict = {
             "family_size_column": "Family_Size",
             "alone_column": "Alone",
             "drop_original": True,      # удалять ли потом SibSp и Parch
+                                        # (KNN, LogRef - True, деревья - False.)
         },
         "fare": { # если в тесте будет пропуск, то заменяем его значением median из train.
             "enabled": True,
