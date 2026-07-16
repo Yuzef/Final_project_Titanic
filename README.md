@@ -2,6 +2,14 @@
    (я не скачивал ноутбук, копировал вставлял поштучно, разбирал, что было непонятно,
    исправлял устаревший код).
 
+Для установки необходимого окружения:
+conda env create -f environment.yml
+conda activate titanic_ml
+
+Запуск:
+python main.py
+
+
 ## Pipeline
 
 Проект запускается из `main.py` и управляется через `configs/config.py`.
