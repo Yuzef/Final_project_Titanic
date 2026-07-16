@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+lgbm_50_lr_005_depth_5_leaves_32,0.8272415461995456,0.040109255844700285,trained_models/lightgbm_st_gr_kfold_estimators_search_lr005_d4_d5/lgbm_50_lr_005_depth_5_leaves_32_BEST.joblib

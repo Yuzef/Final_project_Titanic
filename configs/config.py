@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "catboost_st_gr_kfold_bootstrap_search_300_lr005_d4_l2_10",
+        "experiment_name": "lightgbm_st_gr_kfold_estimators_search_lr005_d4_d5",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -13,7 +13,8 @@ config_dict = {
     },
     "validation": {
         "enabled": True,
-        "strategy": "stratified_group_kfold",  # "stratified_kfold" "stratified_group_kfold"
+        "strategy": "stratified_group_kfold",  # "stratified_kfold", 
+                                               # "stratified_group_kfold"
         "n_splits": 5,
         "shuffle": True,
         "target_column": "Survived",
@@ -130,21 +131,152 @@ config_dict = {
         "n_jobs": 6,
 
         "models": [
-            # ---------------- CatBoost: bootstrap_type search --------------------------
+            # ---------------- LigthGBM --------------------------
             {
-                "name": "catboost_300_lr_005_d4_l2_10_bootstrap_bayesian",
+                "name": "lgbm_50_lr_005_depth_5_leaves_32",
                 "enabled": True,
-                "type": "catboost",
+                "type": "lightgbm",
                 "params": {
-                    "iterations": 300,
+                    "n_estimators": 50,
                     "learning_rate": 0.05,
-                    "depth": 4,
-                    "l2_leaf_reg": 10,
-                    "loss_function": "Logloss",
-                    "eval_metric": "Accuracy",
-                    "bootstrap_type": "Bayesian",
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
                 },
             },
+            {
+                "name": "lgbm_100_lr_005_depth_5_leaves_32",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 100,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_200_lr_005_depth_5_leaves_32",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 200,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_300_lr_005_depth_5_leaves_32",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 300,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_500_lr_005_depth_5_leaves_32",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 500,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_800_lr_005_depth_5_leaves_32",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 800,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
+                    "num_leaves": 32,
+                    "objective": "binary",
+                },
+            },
+            # depth=4, leaves=16
+             {
+                "name": "lgbm_50_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_100_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 100,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_200_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 200,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_300_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 300,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_500_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 500,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },
+            {
+                "name": "lgbm_800_lr_005_depth_4_leaves_16",
+                "enabled": True,
+                "type": "lightgbm",
+                "params": {
+                    "n_estimators": 800,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                    "num_leaves": 16,
+                    "objective": "binary",
+                },
+            },           
         ]
     },
     "metric": {

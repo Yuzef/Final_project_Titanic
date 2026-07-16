@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 from catboost import CatBoostClassifier
+from lightgbm import LGBMClassifier
 
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
@@ -62,6 +63,16 @@ def build_model(model_cfg, cfg):
         params.setdefault("allow_writing_files", False)
 
         model = CatBoostClassifier(**params)
+    
+    elif model_cfg.type == "lightgbm":
+        params = dict(model_cfg.params)
+
+        params["random_state"] = cfg.general.seed
+        params.setdefault("n_jobs", cfg.modeling.n_jobs)
+        # Убирает лишний лог LightGBM.
+        params.setdefault("verbosity", -1)
+
+        model = LGBMClassifier(**params)
 
     else:
         raise ValueError(f"Unknown model type: {model_cfg.type}")
