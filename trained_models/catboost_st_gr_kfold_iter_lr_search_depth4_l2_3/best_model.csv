@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+catboost_500_lr_003_depth_4_l2_3,0.8228220456901247,0.0374049960579675,trained_models/catboost_st_gr_kfold_iter_lr_search_depth4_l2_3/catboost_500_lr_003_depth_4_l2_3_BEST.joblib

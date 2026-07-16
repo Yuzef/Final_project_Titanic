@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "rf_st_gr_kfold_max_features_d5_l3_n_est_100",
+        "experiment_name": "catboost_st_gr_kfold_bootstrap_search_300_lr005_d4_l2_10",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -123,7 +123,7 @@ config_dict = {
         "enabled": True,
         # Приведение всех числовых признаков к одному масштабу.
         # StandardScaler(): x_scaled = (x - mean) / std
-        # LogReg - True, KNN - True, RandomForest - False
+        # LogReg - True, KNN - True, RandomForest - False, Boosting - False
         "scale_features": False,
         # Использовать все доступные ядра процессора "-1".
         #n_jobs=6 — использовать ровно 6 ядер.
@@ -213,7 +213,6 @@ config_dict = {
                     # manhattan: |3| + |4| = 7
                     "metric": "euclidean",
                 }
-
             },
             {
                 "name": "knn_k5_uniform_euclidean",
@@ -235,7 +234,6 @@ config_dict = {
                     "weights": "distance",
                     "metric": "euclidean",
                 }
-
             },
             {
                 "name": "knn_k5_distance_manhattan",
@@ -257,7 +255,6 @@ config_dict = {
                     "weights": "distance",
                     "metric": "euclidean",
                 }
-
             },
             {
                 "name": "knn_k7_distance_manhattan",
@@ -279,7 +276,6 @@ config_dict = {
                     "weights": "uniform",
                     "metric": "manhattan",
                 }
-
             },
             {
                 "name": "knn_k7_uniform_euclidean",
@@ -290,7 +286,6 @@ config_dict = {
                     "weights": "uniform",
                     "metric": "euclidean",
                 }
-
             },
             {
                 "name": "knn_k11_uniform_euclidean",
@@ -361,7 +356,7 @@ config_dict = {
             # ---------------- Random Forest: max_features search --------------------------
             {
                 "name": "rf_100_depth_5_leaf_3_mf_sqrt",
-                "enabled": True,
+                "enabled": False,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
@@ -374,7 +369,7 @@ config_dict = {
             },
             {
                 "name": "rf_100_depth_5_leaf_3_mf_log2",
-                "enabled": True,
+                "enabled": False,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
@@ -387,7 +382,7 @@ config_dict = {
             },
             {
                 "name": "rf_100_depth_5_leaf_3_mf_none",
-                "enabled": True,
+                "enabled": False,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
@@ -400,7 +395,7 @@ config_dict = {
             },
             {
                 "name": "rf_100_depth_5_leaf_3_mf_05",
-                "enabled": True,
+                "enabled": False,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
@@ -413,7 +408,7 @@ config_dict = {
             },
             {
                 "name": "rf_100_depth_5_leaf_3_mf_075",
-                "enabled": True,
+                "enabled": False,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
@@ -422,6 +417,67 @@ config_dict = {
                     "min_samples_leaf": 3,
                     "max_features": 0.75,
                     "bootstrap": True,
+                },
+            },
+            # ---------------- CatBoost: bootstrap_type search --------------------------
+            {
+                "name": "catboost_300_lr_005_d4_l2_10_bootstrap_bayesian",
+                "enabled": True,
+                "type": "catboost",
+                "params": {
+                    "iterations": 300,
+                    "learning_rate": 0.05,
+                    "depth": 4,
+                    "l2_leaf_reg": 10,
+                    "loss_function": "Logloss",
+                    "eval_metric": "Accuracy",
+                    "bootstrap_type": "Bayesian",
+                },
+            },
+            {
+                "name": "catboost_300_lr_005_d4_l2_10_bootstrap_bernoulli",
+                "enabled": True,
+                "type": "catboost",
+                "params": {
+                    "iterations": 300,
+                    "learning_rate": 0.05,
+                    "depth": 4,
+                    # 1 - более сильные поправки,
+                    # 10 - более осторожные поправки.
+                    "l2_leaf_reg": 10,
+                    "loss_function": "Logloss",
+                    "eval_metric": "Accuracy",
+                    "bootstrap_type": "Bernoulli",
+                    "subsample": 0.8,
+                },
+            },
+            {
+                "name": "catboost_300_lr_005_d4_l2_10_bootstrap_mvs",
+                "enabled": True,
+                "type": "catboost",
+                "params": {
+                    "iterations": 300,
+                    "learning_rate": 0.05,
+                    "depth": 4,
+                    "l2_leaf_reg": 10,
+                    "loss_function": "Logloss",
+                    "eval_metric": "Accuracy",
+                    "bootstrap_type": "MVS",
+                    "subsample": 0.8,
+                },
+            },
+            {
+                "name": "catboost_300_lr_005_d4_l2_10_bootstrap_no",
+                "enabled": True,
+                "type": "catboost",
+                "params": {
+                    "iterations": 300,
+                    "learning_rate": 0.05,
+                    "depth": 4,
+                    "l2_leaf_reg": 10,
+                    "loss_function": "Logloss",
+                    "eval_metric": "Accuracy",
+                    "bootstrap_type": "No",
                 },
             },
         ]

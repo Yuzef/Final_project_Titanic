@@ -1,0 +1,48 @@
+catboost_300_lr_005_d4_l2_10_bootstrap_bayesian:
+BEST MODEL
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.836158
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.789189
+fold 5: accuracy = 0.786127
+mean: 0.822701
+std: 0.032597
+-------------------
+
+catboost_300_lr_005_d4_l2_10_bootstrap_bernoulli:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bernoulli', 'subsample': 0.8}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.831579
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.783784
+fold 5: accuracy = 0.786127
+mean: 0.816354
+std: 0.030842
+-------------------
+
+catboost_300_lr_005_d4_l2_10_bootstrap_mvs:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'MVS', 'subsample': 0.8}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.863158
+fold 3: accuracy = 0.843373
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.786127
+mean: 0.821292
+std: 0.032381
+-------------------
+
+catboost_300_lr_005_d4_l2_10_bootstrap_no:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'No'}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.842105
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.789189
+fold 5: accuracy = 0.786127
+mean: 0.817206
+std: 0.029202
+-------------------

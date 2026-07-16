@@ -1,0 +1,60 @@
+catboost_300_lr_005_depth_4_l2_1:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 1, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.842105
+fold 3: accuracy = 0.861446
+fold 4: accuracy = 0.783784
+fold 5: accuracy = 0.786127
+mean: 0.819664
+std: 0.034236
+-------------------
+
+catboost_300_lr_005_depth_4_l2_10:
+BEST MODEL
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.836158
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.789189
+fold 5: accuracy = 0.786127
+mean: 0.822701
+std: 0.032597
+-------------------
+
+catboost_300_lr_005_depth_4_l2_3:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 3, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.786127
+mean: 0.820469
+std: 0.029277
+-------------------
+
+catboost_300_lr_005_depth_4_l2_5:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 5, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.783784
+fold 5: accuracy = 0.786127
+mean: 0.819360
+std: 0.033202
+-------------------
+
+catboost_300_lr_005_depth_4_l2_7:
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 7, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.789189
+fold 5: accuracy = 0.786127
+mean: 0.820441
+std: 0.031813
+-------------------

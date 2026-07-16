@@ -4,6 +4,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 
+from catboost import CatBoostClassifier
+
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -49,6 +51,18 @@ def build_model(model_cfg, cfg):
         params.setdefault("n_jobs", cfg.modeling.n_jobs)
 
         model = RandomForestClassifier(**params)
+
+    elif model_cfg.type == "catboost":
+        params = dict(model_cfg.params)
+        params["random_seed"] = cfg.general.seed
+        params.setdefault("thread_count", cfg.modeling.n_jobs)
+        # Чтобы CatBoost не печатал длинный лог обучения.
+        params.setdefault("verbose", False)
+        # Чтобы CatBoost не создавал лишние служебные файлы.
+        params.setdefault("allow_writing_files", False)
+
+        model = CatBoostClassifier(**params)
+
     else:
         raise ValueError(f"Unknown model type: {model_cfg.type}")
     
