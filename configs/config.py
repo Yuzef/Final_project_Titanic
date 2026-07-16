@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "rf_strat_kfold_depth_search_100",
+        "experiment_name": "rf_st_gr_kfold_max_features_d5_l3_n_est_100",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -358,94 +358,72 @@ config_dict = {
                 }
 
             },
-            # ---------------- Random Forest --------------------------
+            # ---------------- Random Forest: max_features search --------------------------
             {
-                "name": "rf_100_depth_none",
-                "enabled": True,
-                "type": "random_forest",
-                "params": {
-                    # Сколько деревьев в лесу.
-                    "n_estimators": 100,
-                    "max_depth": None,
-                    # Минимальное количество объектов в узле, необходимое,
-                    # чтобы дерево могло попробовать разделить этот узел.
-                    "min_samples_split": 2,
-                    # Минимум объектов в листе.
-                    "min_samples_leaf": 1,
-                    # Сколько признаков смотреть при каждом разбиении.
-                    # При каждом разбиении узла дерево рассматривает не все признаки,
-                    # а случайно выбранные √N признаков,
-                    # где N — общее количество признаков.
-                    "max_features": "sqrt",
-                    "bootstrap": True,
-                }
-            },
-            {
-                "name": "rf_100_depth_1",
-                "enabled": True,
-                "type": "random_forest",
-                "params": {
-                    "n_estimators": 100,
-                    "max_depth": 1,
-                    "min_samples_split": 2,
-                    "min_samples_leaf": 1,
-                    "max_features": "sqrt",
-                    "bootstrap": True,
-                }
-            },
-            {
-                "name": "rf_100_depth_2",
-                "enabled": True,
-                "type": "random_forest",
-                "params": {
-                    "n_estimators": 100,
-                    "max_depth": 2,
-                    "min_samples_split": 2,
-                    "min_samples_leaf": 1,
-                    "max_features": "sqrt",
-                    "bootstrap": True,
-                }
-            },
-            {
-                "name": "rf_100_depth_3",
-                "enabled": True,
-                "type": "random_forest",
-                "params": {
-                    "n_estimators": 100,
-                    "max_depth": 3,
-                    "min_samples_split": 2,
-                    "min_samples_leaf": 1,
-                    "max_features": "sqrt",
-                    "bootstrap": True,
-                }
-            },
-            {
-                "name": "rf_100_depth_5",
+                "name": "rf_100_depth_5_leaf_3_mf_sqrt",
                 "enabled": True,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
                     "max_depth": 5,
                     "min_samples_split": 2,
-                    "min_samples_leaf": 1,
+                    "min_samples_leaf": 3,
                     "max_features": "sqrt",
                     "bootstrap": True,
-                }
+                },
             },
             {
-                "name": "rf_100_depth_7",
+                "name": "rf_100_depth_5_leaf_3_mf_log2",
                 "enabled": True,
                 "type": "random_forest",
                 "params": {
                     "n_estimators": 100,
-                    "max_depth": 7,
+                    "max_depth": 5,
                     "min_samples_split": 2,
-                    "min_samples_leaf": 1,
-                    "max_features": "sqrt",
+                    "min_samples_leaf": 3,
+                    "max_features": "log2",
                     "bootstrap": True,
-                }
+                },
             },
-            
+            {
+                "name": "rf_100_depth_5_leaf_3_mf_none",
+                "enabled": True,
+                "type": "random_forest",
+                "params": {
+                    "n_estimators": 100,
+                    "max_depth": 5,
+                    "min_samples_split": 2,
+                    "min_samples_leaf": 3,
+                    "max_features": None,
+                    "bootstrap": True,
+                },
+            },
+            {
+                "name": "rf_100_depth_5_leaf_3_mf_05",
+                "enabled": True,
+                "type": "random_forest",
+                "params": {
+                    "n_estimators": 100,
+                    "max_depth": 5,
+                    "min_samples_split": 2,
+                    "min_samples_leaf": 3,
+                    "max_features": 0.5,
+                    "bootstrap": True,
+                },
+            },
+            {
+                "name": "rf_100_depth_5_leaf_3_mf_075",
+                "enabled": True,
+                "type": "random_forest",
+                "params": {
+                    "n_estimators": 100,
+                    "max_depth": 5,
+                    "min_samples_split": 2,
+                    "min_samples_leaf": 3,
+                    "max_features": 0.75,
+                    "bootstrap": True,
+                },
+            },
         ]
     },
     "metric": {

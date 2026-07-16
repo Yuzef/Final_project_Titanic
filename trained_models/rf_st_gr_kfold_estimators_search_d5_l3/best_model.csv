@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+rf_500_depth_5_leaf_3,0.8360935686088957,0.038817160512450266,trained_models/rf_st_gr_kfold_estimators_search_d5_l3/rf_500_depth_5_leaf_3_BEST.joblib
