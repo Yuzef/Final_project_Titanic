@@ -44,6 +44,9 @@ def build_model(model_cfg, cfg):
     elif model_cfg.type == "random_forest":
         params = dict(model_cfg.params)
         params["random_state"] = cfg.general.seed
+        # "Если не указан уже n_jobs, то возьми из cfg.modeling.n_jobs."
+        # Есть возможность поставить какой-то другой n_jobs для конкретной модели. 
+        params.setdefault("n_jobs", cfg.modeling.n_jobs)
 
         model = RandomForestClassifier(**params)
     else:
