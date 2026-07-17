@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "27_catboost_300_lr_005_d4_l2_10_native_cat",
+        "experiment_name": "28_xgboost_st_gr_kfold_depth_search_300_lr005",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -54,7 +54,7 @@ config_dict = {
         "categorical_encoding": {
             "enabled": True,
             "mapping": {
-                "enabled": False, # pure catboost native categorical.
+                "enabled": True, # False for pure catboost native categorical.
                 "columns": {
                     "Sex": {
                         "male": 0,
@@ -63,7 +63,7 @@ config_dict = {
                 },
             },
             "one_hot": {
-                "enabled": False,
+                "enabled": True,
                 "columns": ["Embarked", "Initial"],
                 "drop_first": True,   # для LogisticRegression можно попробовать поставить True
             },
@@ -112,19 +112,18 @@ config_dict = {
                 "Fare_Range",   # feature engineering
                 "Family_Size",  # feature engineering
                 "Alone",        # feature engineering
-                "Embarked",
-                "Initial",
+                # "Embarked",   # for catboost
+                # "Initial",    # for catboost
             ],
             "include_prefixes": [ # columns after one-hot-encoding
-            # "Embarked_",
-            # "Initial_",
+                "Embarked_",
+                "Initial_",
             ],
-            "cat_features": [
-                "Sex", "Embarked", "Initial",
-                ]
+            # "cat_features": [
+            #     "Sex", "Embarked", "Initial",
+            #     ]
 
         },
-        "save_processed": False 
     },
     "modeling": {
         "enabled": True,
@@ -137,19 +136,45 @@ config_dict = {
         "n_jobs": 6,
 
         "models": [
-            # ---------------- LigthGBM --------------------------
+            # ---------------- xgboost --------------------------
             {
-                "name": "catboost_300_lr_005_d4_l2_10_native_cat",
+                "name": "xgb_300_lr_005_depth_2",
                 "enabled": True,
-                "type": "catboost",
+                "type": "xgboost",
                 "params": {
-                    "iterations": 300,
+                    "n_estimators": 300,
                     "learning_rate": 0.05,
-                    "depth": 4,
-                    "l2_leaf_reg": 10,
-                    "loss_function": "Logloss",
-                    "eval_metric": "Accuracy",
-                    "bootstrap_type": "Bayesian",
+                    "max_depth": 2,
+                },
+            },
+            {
+                "name": "xgb_300_lr_005_depth_3",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 300,
+                    "learning_rate": 0.05,
+                    "max_depth": 3,
+                },
+            },
+            {
+                "name": "xgb_300_lr_005_depth_4",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 300,
+                    "learning_rate": 0.05,
+                    "max_depth": 4,
+                },
+            },
+            {
+                "name": "xgb_300_lr_005_depth_5",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 300,
+                    "learning_rate": 0.05,
+                    "max_depth": 5,
                 },
             },
         ]

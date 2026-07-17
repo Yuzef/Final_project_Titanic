@@ -12,6 +12,7 @@ dependencies:
   - omegaconf
   - catboost=1.2.10
   - lightgbm=4.6.0
+  - xgboost=3.3.0
   - matplotlib
   - seaborn
   - jupyter

@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 from catboost import CatBoostClassifier
 from lightgbm import LGBMClassifier
+from xgboost import XGBClassifier
 
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
@@ -73,6 +74,17 @@ def build_model(model_cfg, cfg):
         params.setdefault("verbosity", -1)
 
         model = LGBMClassifier(**params)
+
+    elif model_cfg.type == "xgboost":
+        params = dict(model_cfg.params)
+
+        params["random_state"] = cfg.generel.seed
+        params.setdefault("n_jobs", cfg.modeling.n_jobs)
+        params.setdefault("objective", "binary:logistic")
+        params.setdefault("eval_metric", "logloss")
+        params.setdefault("verbosite", 0)
+
+        model = XGBClassifier(**params)
 
     else:
         raise ValueError(f"Unknown model type: {model_cfg.type}")
