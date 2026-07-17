@@ -1,0 +1,6 @@
+model_name,model_type,fold,params,metric,score
+catboost_300_lr_005_d4_l2_10_native_cat,catboost,0,"{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}",accuracy,0.8248587570621468
+catboost_300_lr_005_d4_l2_10_native_cat,catboost,1,"{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}",accuracy,0.8473684210526315
+catboost_300_lr_005_d4_l2_10_native_cat,catboost,2,"{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}",accuracy,0.8554216867469879
+catboost_300_lr_005_d4_l2_10_native_cat,catboost,3,"{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}",accuracy,0.8054054054054054
+catboost_300_lr_005_d4_l2_10_native_cat,catboost,4,"{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}",accuracy,0.7745664739884393

@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+catboost_300_lr_005_d4_l2_10_native_cat,0.8215241488511221,0.032760212956140435,trained_models/27_catboost_300_lr_005_d4_l2_10_native_cat/catboost_300_lr_005_d4_l2_10_native_cat_BEST.joblib

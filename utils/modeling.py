@@ -142,7 +142,14 @@ def train_and_save_full_model(df, cfg, model_cfg):
     y_train = df[cfg.validation.target_column]
 
     model = build_model(model_cfg, cfg)
-    model.fit(X_train, y_train)
+    if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:
+        model.fit(
+            X_train,
+            y_train,
+            cat_features=list(cfg.preprocessing.features.cat_features),
+        )
+    else:    
+        model.fit(X_train, y_train)
 
     artifact = {
         "model": model,
@@ -179,10 +186,17 @@ def run_modeling(df, cfg, folds_iterator):
         for model_cfg in enabled_models:
             model = build_model(model_cfg, cfg)
 
-            model.fit(
-                fold_data["X_train"],
-                fold_data["y_train"],
-            )
+            if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:
+                model.fit(
+                    fold_data["X_train"],
+                    fold_data["y_train"],
+                    cat_features=list(cfg.preprocessing.features.cat_features),
+                )
+            else:
+                model.fit(
+                    fold_data["X_train"],
+                    fold_data["y_train"],
+                )
 
             metrics = evaluate_model(
                 model,

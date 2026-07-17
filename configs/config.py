@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "lightgbm_st_gr_kfold_estimators_search_lr005_d4_d5",
+        "experiment_name": "27_catboost_300_lr_005_d4_l2_10_native_cat",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -54,7 +54,7 @@ config_dict = {
         "categorical_encoding": {
             "enabled": True,
             "mapping": {
-                "enabled": True,
+                "enabled": False, # pure catboost native categorical.
                 "columns": {
                     "Sex": {
                         "male": 0,
@@ -63,7 +63,7 @@ config_dict = {
                 },
             },
             "one_hot": {
-                "enabled": True,
+                "enabled": False,
                 "columns": ["Embarked", "Initial"],
                 "drop_first": True,   # для LogisticRegression можно попробовать поставить True
             },
@@ -104,18 +104,24 @@ config_dict = {
             "use_columns": [    # что используем?
                 "Pclass",
                 "Sex",
-                # "Age",
+                # "Age",        # drop original ?
                 "Age_band",     # feature engineering
-                # "SibSp",
-                # "Parch",
+                # "SibSp",      # drop original ?
+                # "Parch",      # drop original ?
+                # "Fare",       # drop original ?
                 "Fare_Range",   # feature engineering
                 "Family_Size",  # feature engineering
                 "Alone",        # feature engineering
+                "Embarked",
+                "Initial",
             ],
             "include_prefixes": [ # columns after one-hot-encoding
-            "Embarked_",
-            "Initial_",
+            # "Embarked_",
+            # "Initial_",
             ],
+            "cat_features": [
+                "Sex", "Embarked", "Initial",
+                ]
 
         },
         "save_processed": False 
@@ -133,150 +139,19 @@ config_dict = {
         "models": [
             # ---------------- LigthGBM --------------------------
             {
-                "name": "lgbm_50_lr_005_depth_5_leaves_32",
+                "name": "catboost_300_lr_005_d4_l2_10_native_cat",
                 "enabled": True,
-                "type": "lightgbm",
+                "type": "catboost",
                 "params": {
-                    "n_estimators": 50,
+                    "iterations": 300,
                     "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
+                    "depth": 4,
+                    "l2_leaf_reg": 10,
+                    "loss_function": "Logloss",
+                    "eval_metric": "Accuracy",
+                    "bootstrap_type": "Bayesian",
                 },
             },
-            {
-                "name": "lgbm_100_lr_005_depth_5_leaves_32",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 100,
-                    "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_200_lr_005_depth_5_leaves_32",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 200,
-                    "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_300_lr_005_depth_5_leaves_32",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 300,
-                    "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_500_lr_005_depth_5_leaves_32",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 500,
-                    "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_800_lr_005_depth_5_leaves_32",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 800,
-                    "learning_rate": 0.05,
-                    "max_depth": 5,
-                    "num_leaves": 32,
-                    "objective": "binary",
-                },
-            },
-            # depth=4, leaves=16
-             {
-                "name": "lgbm_50_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_100_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 100,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_200_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 200,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_300_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 300,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_500_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 500,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },
-            {
-                "name": "lgbm_800_lr_005_depth_4_leaves_16",
-                "enabled": True,
-                "type": "lightgbm",
-                "params": {
-                    "n_estimators": 800,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
-                    "num_leaves": 16,
-                    "objective": "binary",
-                },
-            },           
         ]
     },
     "metric": {

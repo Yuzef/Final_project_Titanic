@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+lgbm_50_lr_003_d5_l32_tree_features,0.8295460683811735,0.02918454442253449,trained_models/25_lightgbm_st_gr_kfold_best_with_raw_age_fare_family/lgbm_50_lr_003_d5_l32_tree_features_BEST.joblib

@@ -1,0 +1,96 @@
+lgbm_100_lr_003_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 100, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.786127
+mean: 0.822649
+std: 0.033351
+-------------------
+
+lgbm_100_lr_005_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 100, 'learning_rate': 0.05, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.800000
+fold 5: accuracy = 0.786127
+mean: 0.824860
+std: 0.032185
+-------------------
+
+lgbm_100_lr_007_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 100, 'learning_rate': 0.07, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.813559
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.861446
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.791908
+mean: 0.823880
+std: 0.033744
+-------------------
+
+lgbm_100_lr_01_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 100, 'learning_rate': 0.1, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.783784
+fold 5: accuracy = 0.780347
+mean: 0.820461
+std: 0.037407
+-------------------
+
+lgbm_50_lr_003_depth_5_leaves_32:
+BEST MODEL
+model_type: lightgbm
+params: {'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.863158
+fold 3: accuracy = 0.879518
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.797688
+mean: 0.830833
+std: 0.038607
+-------------------
+
+lgbm_50_lr_005_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.863158
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.800000
+fold 5: accuracy = 0.780347
+mean: 0.827242
+std: 0.040109
+-------------------
+
+lgbm_50_lr_007_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 50, 'learning_rate': 0.07, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.861446
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.791908
+mean: 0.826140
+std: 0.033255
+-------------------
+
+lgbm_50_lr_01_depth_5_leaves_32:
+model_type: lightgbm
+params: {'n_estimators': 50, 'learning_rate': 0.1, 'max_depth': 5, 'num_leaves': 32, 'objective': 'binary'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.843373
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.786127
+mean: 0.821370
+std: 0.030779
+-------------------

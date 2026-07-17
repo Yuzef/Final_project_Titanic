@@ -1,0 +1,6 @@
+model_name,model_type,fold,params,metric,score
+lgbm_50_lr_003_d5_l32_tree_features,lightgbm,0,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'min_child_samples': 20, 'objective': 'binary'}",accuracy,0.8248587570621468
+lgbm_50_lr_003_d5_l32_tree_features,lightgbm,1,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'min_child_samples': 20, 'objective': 'binary'}",accuracy,0.8368421052631579
+lgbm_50_lr_003_d5_l32_tree_features,lightgbm,2,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'min_child_samples': 20, 'objective': 'binary'}",accuracy,0.8674698795180723
+lgbm_50_lr_003_d5_l32_tree_features,lightgbm,3,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'min_child_samples': 20, 'objective': 'binary'}",accuracy,0.8324324324324325
+lgbm_50_lr_003_d5_l32_tree_features,lightgbm,4,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 5, 'num_leaves': 32, 'min_child_samples': 20, 'objective': 'binary'}",accuracy,0.7861271676300579

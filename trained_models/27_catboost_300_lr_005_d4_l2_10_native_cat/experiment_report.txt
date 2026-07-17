@@ -1,0 +1,12 @@
+catboost_300_lr_005_d4_l2_10_native_cat:
+BEST MODEL
+model_type: catboost
+params: {'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'l2_leaf_reg': 10, 'loss_function': 'Logloss', 'eval_metric': 'Accuracy', 'bootstrap_type': 'Bayesian'}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.805405
+fold 5: accuracy = 0.774566
+mean: 0.821524
+std: 0.032760
+-------------------

@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+lgbm_50_lr_003_d5_l32_mcs_20,0.8308334924880585,0.038607233087114216,trained_models/24_lightgbm_st_gr_kfold_min_child_samples_search_50_lr003_d5_l32/lgbm_50_lr_003_d5_l32_mcs_20_BEST.joblib

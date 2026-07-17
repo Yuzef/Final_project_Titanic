@@ -1,0 +1,2 @@
+model_name,artifact_path
+lgbm_50_lr_003_d5_l32_tree_features,trained_models/25_lightgbm_st_gr_kfold_best_with_raw_age_fare_family/lgbm_50_lr_003_d5_l32_tree_features.joblib
