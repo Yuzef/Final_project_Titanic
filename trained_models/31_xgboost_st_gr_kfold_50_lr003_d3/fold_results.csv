@@ -1,0 +1,6 @@
+model_name,model_type,fold,params,metric,score
+xgb_50_lr_003_depth_3_stable,xgboost,0,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}",accuracy,0.8305084745762712
+xgb_50_lr_003_depth_3_stable,xgboost,1,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}",accuracy,0.8473684210526315
+xgb_50_lr_003_depth_3_stable,xgboost,2,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}",accuracy,0.8554216867469879
+xgb_50_lr_003_depth_3_stable,xgboost,3,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}",accuracy,0.827027027027027
+xgb_50_lr_003_depth_3_stable,xgboost,4,"{'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}",accuracy,0.7803468208092486

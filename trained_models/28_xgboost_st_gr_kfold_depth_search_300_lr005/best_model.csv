@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+xgb_300_lr_005_depth_3,0.8226435071130324,0.04286599381512442,trained_models/28_xgboost_st_gr_kfold_depth_search_300_lr005/xgb_300_lr_005_depth_3_BEST.joblib

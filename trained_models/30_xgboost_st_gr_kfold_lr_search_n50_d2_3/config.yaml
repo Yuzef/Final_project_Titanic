@@ -1,0 +1,167 @@
+general:
+  experiment_name: 30_xgboost_st_gr_kfold_lr_search_n50_d2_3
+  seed: 1027309
+  num_classes: 2
+paths:
+  train_csv: data_raw/train.csv
+  test_csv: data_raw/test.csv
+  trained_models: trained_models
+validation:
+  enabled: true
+  strategy: stratified_group_kfold
+  n_splits: 5
+  shuffle: true
+  target_column: Survived
+  group_by: family
+  family:
+    surname_column: Name
+    sibsp_column: SibSp
+    parch_column: Parch
+    passenger_id_column: PassengerId
+    solo_as_unique_group: true
+preprocessing:
+  embarked:
+    enabled: true
+    strategy: most_frequent
+  age:
+    enabled: true
+    strategy: mean_by_title
+  initial:
+    enabled: true
+    output_column: Initial
+  age_binning:
+    enabled: true
+    strategy: equal_width
+    output_column: Age_band
+    num_bins: 5
+    drop_original: true
+  categorical_encoding:
+    enabled: true
+    mapping:
+      enabled: true
+      columns:
+        Sex:
+          male: 0
+          female: 1
+    one_hot:
+      enabled: true
+      columns:
+      - Embarked
+      - Initial
+      drop_first: true
+  family_features:
+    enabled: true
+    family_size_column: Family_Size
+    alone_column: Alone
+    drop_original: true
+  fare:
+    enabled: true
+    strategy: median
+  fare_binning:
+    enabled: true
+    strategy: quantile
+    output_column: Fare_Range
+    num_bins: 4
+    drop_original: true
+  features:
+    given_columns:
+    - PassengerId
+    - Survived
+    - Pclass
+    - Name
+    - Sex
+    - Age
+    - SibSp
+    - Parch
+    - Ticket
+    - Fare
+    - Cabin
+    - Embarked
+    use_columns:
+    - Pclass
+    - Sex
+    - Age_band
+    - Fare_Range
+    - Family_Size
+    - Alone
+    include_prefixes:
+    - Embarked_
+    - Initial_
+modeling:
+  enabled: true
+  scale_features: false
+  n_jobs: 6
+  models:
+  - name: xgb_50_lr_003_depth_3
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.03
+      max_depth: 3
+  - name: xgb_50_lr_005_depth_3
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.05
+      max_depth: 3
+  - name: xgb_50_lr_007_depth_3
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.07
+      max_depth: 3
+  - name: xgb_50_lr_01_depth_3
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.1
+      max_depth: 3
+  - name: xgb_50_lr_003_depth_2
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.03
+      max_depth: 2
+  - name: xgb_50_lr_005_depth_2
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.05
+      max_depth: 2
+  - name: xgb_50_lr_007_depth_2
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.07
+      max_depth: 2
+  - name: xgb_50_lr_01_depth_2
+    enabled: true
+    type: xgboost
+    params:
+      n_estimators: 50
+      learning_rate: 0.1
+      max_depth: 2
+metric:
+  name: accuracy
+inference:
+  enabled: true
+  model_name: logreg_l2
+  use_best_model: true
+  id_column: PassengerId
+  prediction_column: Survived
+  submission_dir: submissions
+logging:
+  enabled: true
+  save_config: true
+  save_fold_results: true
+  save_summary: true
+  save_artifact_paths: true
+  save_best_model: true
+  save_readable_report: true

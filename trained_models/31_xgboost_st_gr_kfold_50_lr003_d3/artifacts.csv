@@ -1,0 +1,2 @@
+model_name,artifact_path
+xgb_50_lr_003_depth_3_stable,trained_models/31_xgboost_st_gr_kfold_50_lr003_d3/xgb_50_lr_003_depth_3_stable.joblib

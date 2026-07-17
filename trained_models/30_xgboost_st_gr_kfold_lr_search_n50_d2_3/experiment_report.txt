@@ -1,0 +1,96 @@
+xgb_50_lr_003_depth_2:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 2}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.843373
+fold 4: accuracy = 0.810811
+fold 5: accuracy = 0.751445
+mean: 0.815494
+std: 0.039669
+-------------------
+
+xgb_50_lr_003_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.827027
+fold 5: accuracy = 0.780347
+mean: 0.828134
+std: 0.029176
+-------------------
+
+xgb_50_lr_005_depth_2:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 2}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.857895
+fold 3: accuracy = 0.849398
+fold 4: accuracy = 0.810811
+fold 5: accuracy = 0.774566
+mean: 0.822376
+std: 0.033246
+-------------------
+
+xgb_50_lr_005_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.828353
+std: 0.037682
+-------------------
+
+xgb_50_lr_007_depth_2:
+BEST MODEL
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.07, 'max_depth': 2}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.863158
+fold 3: accuracy = 0.879518
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.830534
+std: 0.041621
+-------------------
+
+xgb_50_lr_007_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.07, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.885542
+fold 4: accuracy = 0.783784
+fold 5: accuracy = 0.774566
+mean: 0.825406
+std: 0.046639
+-------------------
+
+xgb_50_lr_01_depth_2:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.1, 'max_depth': 2}
+fold 1: accuracy = 0.819209
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.879518
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.828428
+std: 0.039784
+-------------------
+
+xgb_50_lr_01_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.1, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.794595
+fold 5: accuracy = 0.774566
+mean: 0.825159
+std: 0.040661
+-------------------

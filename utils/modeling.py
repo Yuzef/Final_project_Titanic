@@ -78,11 +78,11 @@ def build_model(model_cfg, cfg):
     elif model_cfg.type == "xgboost":
         params = dict(model_cfg.params)
 
-        params["random_state"] = cfg.generel.seed
+        params["random_state"] = cfg.general.seed
         params.setdefault("n_jobs", cfg.modeling.n_jobs)
         params.setdefault("objective", "binary:logistic")
         params.setdefault("eval_metric", "logloss")
-        params.setdefault("verbosite", 0)
+        params.setdefault("verbosity", 0)
 
         model = XGBClassifier(**params)
 

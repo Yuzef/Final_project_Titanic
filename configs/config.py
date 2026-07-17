@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "28_xgboost_st_gr_kfold_depth_search_300_lr005",
+        "experiment_name": "32_xgboost_st_gr_kfold_lr_refine_n50_d3",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -138,43 +138,53 @@ config_dict = {
         "models": [
             # ---------------- xgboost --------------------------
             {
-                "name": "xgb_300_lr_005_depth_2",
+                "name": "xgb_50_lr_003_depth_3",
                 "enabled": True,
                 "type": "xgboost",
                 "params": {
-                    "n_estimators": 300,
-                    "learning_rate": 0.05,
-                    "max_depth": 2,
-                },
-            },
-            {
-                "name": "xgb_300_lr_005_depth_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 300,
-                    "learning_rate": 0.05,
+                    "n_estimators": 50,
+                    "learning_rate": 0.03,
                     "max_depth": 3,
                 },
             },
             {
-                "name": "xgb_300_lr_005_depth_4",
+                "name": "xgb_50_lr_0035_depth_3",
                 "enabled": True,
                 "type": "xgboost",
                 "params": {
-                    "n_estimators": 300,
-                    "learning_rate": 0.05,
-                    "max_depth": 4,
+                    "n_estimators": 50,
+                    "learning_rate": 0.035,
+                    "max_depth": 3,
                 },
             },
             {
-                "name": "xgb_300_lr_005_depth_5",
+                "name": "xgb_50_lr_004_depth_3",
                 "enabled": True,
                 "type": "xgboost",
                 "params": {
-                    "n_estimators": 300,
+                    "n_estimators": 50,
+                    "learning_rate": 0.04,
+                    "max_depth": 3,
+                },
+            },
+            {
+                "name": "xgb_50_lr_0045_depth_3",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.045,
+                    "max_depth": 3,
+                },
+            },
+            {
+                "name": "xgb_50_lr_005_depth_3",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
                     "learning_rate": 0.05,
-                    "max_depth": 5,
+                    "max_depth": 3,
                 },
             },
         ]

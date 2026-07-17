@@ -1,0 +1,21 @@
+model_name,model_type,fold,params,metric,score
+xgb_300_lr_005_depth_2,xgboost,0,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 2}",accuracy,0.8248587570621468
+xgb_300_lr_005_depth_3,xgboost,0,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 3}",accuracy,0.8192090395480226
+xgb_300_lr_005_depth_4,xgboost,0,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 4}",accuracy,0.8192090395480226
+xgb_300_lr_005_depth_5,xgboost,0,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 5}",accuracy,0.8135593220338984
+xgb_300_lr_005_depth_2,xgboost,1,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 2}",accuracy,0.8526315789473684
+xgb_300_lr_005_depth_3,xgboost,1,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 3}",accuracy,0.8631578947368421
+xgb_300_lr_005_depth_4,xgboost,1,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 4}",accuracy,0.8473684210526315
+xgb_300_lr_005_depth_5,xgboost,1,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 5}",accuracy,0.8473684210526315
+xgb_300_lr_005_depth_2,xgboost,2,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 2}",accuracy,0.8554216867469879
+xgb_300_lr_005_depth_3,xgboost,2,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 3}",accuracy,0.8674698795180723
+xgb_300_lr_005_depth_4,xgboost,2,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 4}",accuracy,0.8433734939759037
+xgb_300_lr_005_depth_5,xgboost,2,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 5}",accuracy,0.8433734939759037
+xgb_300_lr_005_depth_2,xgboost,3,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 2}",accuracy,0.7891891891891892
+xgb_300_lr_005_depth_3,xgboost,3,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 3}",accuracy,0.7945945945945946
+xgb_300_lr_005_depth_4,xgboost,3,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 4}",accuracy,0.7783783783783784
+xgb_300_lr_005_depth_5,xgboost,3,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 5}",accuracy,0.7837837837837838
+xgb_300_lr_005_depth_2,xgboost,4,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 2}",accuracy,0.7745664739884393
+xgb_300_lr_005_depth_3,xgboost,4,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 3}",accuracy,0.7687861271676301
+xgb_300_lr_005_depth_4,xgboost,4,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 4}",accuracy,0.7803468208092486
+xgb_300_lr_005_depth_5,xgboost,4,"{'n_estimators': 300, 'learning_rate': 0.05, 'max_depth': 5}",accuracy,0.7745664739884393

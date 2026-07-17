@@ -1,0 +1,60 @@
+xgb_50_lr_0035_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.035, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.827027
+fold 5: accuracy = 0.774566
+mean: 0.826978
+std: 0.031560
+-------------------
+
+xgb_50_lr_003_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.03, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.827027
+fold 5: accuracy = 0.780347
+mean: 0.828134
+std: 0.029176
+-------------------
+
+xgb_50_lr_0045_depth_3:
+BEST MODEL
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.045, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.827027
+fold 5: accuracy = 0.768786
+mean: 0.829437
+std: 0.038562
+-------------------
+
+xgb_50_lr_004_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.04, 'max_depth': 3}
+fold 1: accuracy = 0.830508
+fold 2: accuracy = 0.847368
+fold 3: accuracy = 0.855422
+fold 4: accuracy = 0.827027
+fold 5: accuracy = 0.768786
+mean: 0.825822
+std: 0.033974
+-------------------
+
+xgb_50_lr_005_depth_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.828353
+std: 0.037682
+-------------------
