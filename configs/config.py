@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "32_xgboost_st_gr_kfold_lr_refine_n50_d3",
+        "experiment_name": "33_xgboost_st_gr_kfold_min_child_weight_search_50_lr005_d3",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -138,53 +138,58 @@ config_dict = {
         "models": [
             # ---------------- xgboost --------------------------
             {
-                "name": "xgb_50_lr_003_depth_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.03,
-                    "max_depth": 3,
-                },
-            },
-            {
-                "name": "xgb_50_lr_0035_depth_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.035,
-                    "max_depth": 3,
-                },
-            },
-            {
-                "name": "xgb_50_lr_004_depth_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.04,
-                    "max_depth": 3,
-                },
-            },
-            {
-                "name": "xgb_50_lr_0045_depth_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.045,
-                    "max_depth": 3,
-                },
-            },
-            {
-                "name": "xgb_50_lr_005_depth_3",
+                "name": "xgb_50_lr_005_depth_3_mcw_1",
                 "enabled": True,
                 "type": "xgboost",
                 "params": {
                     "n_estimators": 50,
                     "learning_rate": 0.05,
                     "max_depth": 3,
+                    "min_child_weight": 1,
+                },
+            },
+            {
+                "name": "xgb_50_lr_005_depth_3_mcw_2",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.05,
+                    "max_depth": 3,
+                    "min_child_weight": 2,
+                },
+            },
+            {
+                "name": "xgb_50_lr_005_depth_3_mcw_3",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.05,
+                    "max_depth": 3,
+                    "min_child_weight": 3,
+                },
+            },
+            {
+                "name": "xgb_50_lr_005_depth_3_mcw_5",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.05,
+                    "max_depth": 3,
+                    "min_child_weight": 5,
+                },
+            },
+            {
+                "name": "xgb_50_lr_005_depth_3_mcw_10",
+                "enabled": True,
+                "type": "xgboost",
+                "params": {
+                    "n_estimators": 50,
+                    "learning_rate": 0.05,
+                    "max_depth": 3,
+                    "min_child_weight": 10,
                 },
             },
         ]

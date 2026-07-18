@@ -1,0 +1,60 @@
+xgb_50_lr_005_depth_3_mcw_1:
+BEST MODEL
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3, 'min_child_weight': 1}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.828353
+std: 0.037682
+-------------------
+
+xgb_50_lr_005_depth_3_mcw_10:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3, 'min_child_weight': 10}
+fold 1: accuracy = 0.796610
+fold 2: accuracy = 0.821053
+fold 3: accuracy = 0.843373
+fold 4: accuracy = 0.789189
+fold 5: accuracy = 0.774566
+mean: 0.804958
+std: 0.027280
+-------------------
+
+xgb_50_lr_005_depth_3_mcw_2:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3, 'min_child_weight': 2}
+fold 1: accuracy = 0.824859
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.828353
+std: 0.037682
+-------------------
+
+xgb_50_lr_005_depth_3_mcw_3:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3, 'min_child_weight': 3}
+fold 1: accuracy = 0.802260
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.873494
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.780347
+mean: 0.824990
+std: 0.037760
+-------------------
+
+xgb_50_lr_005_depth_3_mcw_5:
+model_type: xgboost
+params: {'n_estimators': 50, 'learning_rate': 0.05, 'max_depth': 3, 'min_child_weight': 5}
+fold 1: accuracy = 0.796610
+fold 2: accuracy = 0.852632
+fold 3: accuracy = 0.885542
+fold 4: accuracy = 0.816216
+fold 5: accuracy = 0.774566
+mean: 0.825113
+std: 0.044316
+-------------------
