@@ -86,6 +86,13 @@ def build_model(model_cfg, cfg):
 
         model = XGBClassifier(**params)
 
+    elif model_cfg.type == "pytorch_mlp":
+        model = TorchMLPClassifier(
+            model_params=dict(model_cfg.params),
+            dl_cfg = cfg.dl,
+            random_state = cfg.general.seed,
+        )
+
     else:
         raise ValueError(f"Unknown model type: {model_cfg.type}")
     

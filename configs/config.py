@@ -65,7 +65,8 @@ config_dict = {
             "one_hot": {
                 "enabled": True,
                 "columns": ["Embarked", "Initial"],
-                "drop_first": True,   # для LogisticRegression можно попробовать поставить True
+                "drop_first": True,   # для LogisticRegression можно попробовать
+                                      # поставить True
             },
         },
         "family_features": {
@@ -130,70 +131,68 @@ config_dict = {
         # Приведение всех числовых признаков к одному масштабу.
         # StandardScaler(): x_scaled = (x - mean) / std
         # LogReg - True, KNN - True, RandomForest - False, Boosting - False
-        "scale_features": False,
+        "scale_features": True, # True для DL, False для бустингов.
         # Использовать все доступные ядра процессора "-1".
         #n_jobs=6 — использовать ровно 6 ядер.
         "n_jobs": 6,
 
         "models": [
-            # ---------------- xgboost --------------------------
             {
-                "name": "xgb_50_lr_005_depth_3_mcw_1",
+                "name": "dnn_mlp_h16_relu",
                 "enabled": True,
-                "type": "xgboost",
+                "type": "pytorch_mlp",
                 "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 3,
-                    "min_child_weight": 1,
-                },
-            },
-            {
-                "name": "xgb_50_lr_005_depth_3_mcw_2",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 3,
-                    "min_child_weight": 2,
-                },
-            },
-            {
-                "name": "xgb_50_lr_005_depth_3_mcw_3",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 3,
-                    "min_child_weight": 3,
-                },
-            },
-            {
-                "name": "xgb_50_lr_005_depth_3_mcw_5",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 3,
-                    "min_child_weight": 5,
-                },
-            },
-            {
-                "name": "xgb_50_lr_005_depth_3_mcw_10",
-                "enabled": True,
-                "type": "xgboost",
-                "params": {
-                    "n_estimators": 50,
-                    "learning_rate": 0.05,
-                    "max_depth": 3,
-                    "min_child_weight": 10,
+                    "hidden_dim": 16,
+                    "activation": "relu",
                 },
             },
         ]
     },
+    "dl": {
+        "enabled": True,
+    
+        "training": {
+            "num_epochs": 10,
+            "device": "auto", # ПРОПИСАТЬ ЛОГИКУ
+# Автоматический выбор устройства
+# if torch.cuda.is_available():
+# 	device = torch.device("cuda")
+# elif torch.backends.mps.is_available():
+# 	device = torch.device("mps")
+# else:
+# 	device = torch.device("cpu")
+	
+# print(f" Используется устройство: {device}")
+            "mixed_precision": True,
+            "verbose": False,
+            "early_stopping_epochs": 5,
+            "lr": 1e-4,
+            
+        },
+        "dataloader_params": {
+            "batch_size": 32,
+            "num_workers": 0,
+            "pin_memory": False,
+            "persistent_workers": False,
+            "shuffle": True,
+            # Если последний batch получился неполным, он будет отброшен.
+            "drop_last": False, # Ставлю False, т.к. dataset маленький.
+        },
+        "optimizer": {
+            "name": "adam",
+            "params": {
+                "lr": "${training.lr}",
+                # Регуляризация.
+                "weight_decay": 0.0001,
+            },
+        },
+        "loss": {
+            "name": "cross_entropy",
+            "params": {
+            }
+        },
+    },
+
     "metric": {
         "name": "accuracy"
     },
@@ -215,35 +214,23 @@ config_dict = {
         "save_best_model": True,
         "save_readable_report": True,
     },
-
-
-    
-    # "training": {
-    #     "num_epochs": 10,
-    #     "early_stopping_epochs": 5,
-    #     "Ir": 1e-4,
-    #     "mixed_precision": True,
-    #     "device": "cuda",
-    #     "save_best": True,
-    #     "save_last": False,
-    #     "drop_last": True
-    # },
-    # "dataloader_params": {
-    #     "batch_size": 64,
-    #     "num_workers": 8,
-    #     "pin_memory": False,
-    #     "persistent_workers": True,
-    #     "shuffle": True,
-    #     "drop_last": True,
-    # },
-    # "loss": {
-    #     "params": {
-            
-    #     }
-    # }
 }
-
 
 config = OmegaConf.create(config_dict)
 
+
+# modeling.models
+#   что обучаем
+
+# dl.training
+#   сколько и где обучаем
+
+# dl.dataloader_params
+#   как подаем данные батчами
+
+# dl.optimizer
+#   как обновляем веса
+
+# dl.loss
+#   какую функцию ошибки используем
 

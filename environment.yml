@@ -17,3 +17,5 @@ dependencies:
   - seaborn
   - jupyter
   - ipykernel
+  - pip:
+    - torch==2.11.0
