@@ -153,7 +153,7 @@ config_dict = {
     
         "training": {
             "num_epochs": 10,
-            "device": "auto", # ПРОПИСАТЬ ЛОГИКУ
+            "device": "auto", # код сам выберет cuda / mps / cpu
 # Автоматический выбор устройства
 # if torch.cuda.is_available():
 # 	device = torch.device("cuda")
@@ -181,7 +181,7 @@ config_dict = {
         "optimizer": {
             "name": "adam",
             "params": {
-                "lr": "${training.lr}",
+                "lr": "${dl.training.lr}",
                 # Регуляризация.
                 "weight_decay": 0.0001,
             },

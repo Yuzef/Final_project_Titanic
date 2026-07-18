@@ -13,22 +13,28 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 
 def resolve_device(device_name):
     if device_name == "auto":
-        if torch.cuda.is_avalilable():
+        if torch.cuda.is_available():
             device = torch.device("cuda")
         elif torch.backends.mps.is_available():
             device = torch.device("mps")
         else:
             device = torch.device("cpu")
-    else:
-        device = torch.device(device_name)
-    
-    print(f"Using device: {device}.")
 
+        print(f"Using device: {device}.")
+        return device
+    
+    if device_name == "cuda" and not torch.cuda.is_available():
+        raise ValueError("CUDA was requested, but torch.cuda.is_available() is False.")
+    if device_name == "mps" and not torch.backends.mps.is_available():
+           raise ValueError("MPS was requested, but torch.backends.mps.is_available() is False.")
+
+    device = torch.device(device_name)
+    print(f"Using device: {device}.")
     return device
 
 def get_activation(name):
     if name == "relu":
-        return nn.Relu()
+        return nn.ReLU()
 
     if name == "tanh":
         return nn.Tanh()

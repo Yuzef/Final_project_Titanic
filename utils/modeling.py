@@ -12,6 +12,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from utils.pytorch_models import TitanicMLP
+
 from pathlib import Path
 import joblib
 
@@ -87,7 +89,7 @@ def build_model(model_cfg, cfg):
         model = XGBClassifier(**params)
 
     elif model_cfg.type == "pytorch_mlp":
-        model = TorchMLPClassifier(
+        model = TitanicMLP(
             model_params=dict(model_cfg.params),
             dl_cfg = cfg.dl,
             random_state = cfg.general.seed,
