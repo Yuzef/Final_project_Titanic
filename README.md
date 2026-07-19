@@ -122,5 +122,33 @@ inference.py
     сохранение submission в папку эксперимента
 
 
+main.py
+  ↓
+run_modeling()
+  ↓
+если model_cfg.type == "pytorch_mlp":
+    запускаем PyTorch pipeline
+иначе:
+    запускаем sklearn / boosting pipeline
+
+
+Разделение pipelines:
+utils/pytorch_models.py
+  Только архитектуры нейросетей:
+  - get_activation()
+  - TitanicMLPNetwork
+
+utils/pytorch_training.py
+  Только PyTorch-обучение:
+  - resolve_device()
+  - build_pytorch_model()
+  - train_pytorch_model()
+  - predict_pytorch_model()
+  - save_pytorch_artifact()
+
+utils/modeling.py
+  Общий управляющий код:
+  - если sklearn-модель -> старый flow
+  - если pytorch_mlp -> DL flow
 
 

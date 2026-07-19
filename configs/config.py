@@ -144,6 +144,7 @@ config_dict = {
                 "params": {
                     "hidden_dim": 16,
                     "activation": "relu",
+                    "output_dim": "${general.num_classes}",
                 },
             },
         ]
@@ -154,18 +155,9 @@ config_dict = {
         "training": {
             "num_epochs": 10,
             "device": "auto", # код сам выберет cuda / mps / cpu
-# Автоматический выбор устройства
-# if torch.cuda.is_available():
-# 	device = torch.device("cuda")
-# elif torch.backends.mps.is_available():
-# 	device = torch.device("mps")
-# else:
-# 	device = torch.device("cpu")
-	
-# print(f" Используется устройство: {device}")
             "mixed_precision": True,
             "verbose": False,
-            "early_stopping_epochs": 5,
+            # "early_stopping_epochs": 5,
             "lr": 1e-4,
             
         },
@@ -187,6 +179,10 @@ config_dict = {
             },
         },
         "loss": {
+            # CrossEntropyLoss потому что он подойдёт потом под расширение
+            # на многоклассовую классификацию - более универсальный pipeline,
+            # но надо помнить, что вычислительно CrossEntropyLoss сложнее для
+            # бинарной классификации, так как он считает 2 logits, а не один. 
             "name": "cross_entropy",
             "params": {
             }
