@@ -132,4 +132,24 @@ def train_pytorch_model(X_train, y_train, model_cfg, dl_cfg, seed):
 
     return model           
 
+def predict_pytorch_model(model, X, dl_cfg):
+    device = resolve_device(dl_cfg.training.device)
 
+    X_np = np.asarray(X, dtype=np.float32)
+
+    X_tensor = torch.tensor(
+        X_np,
+        dtype=torch.float32,
+    ).to(device)
+
+    model = model.to(device)
+    model.eval()
+
+    with torch.no_grad():
+        logits = model(X_tensor)
+        # dim=1 означает: ищем максимум по классам внутри каждой строки.
+        # dim=0 -> идти по строкам сверху вниз
+        # dim=1 -> идти по колонкам внутри строки
+        predictions = torch.argmax(logits, dim=1)
+    
+    return predictions.cpu().numpy()

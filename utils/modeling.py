@@ -16,6 +16,7 @@ from pathlib import Path
 import joblib
 
 from utils.preprocessing import fit_preprocessing, preprocess
+from utils.pytorch_training import train_pytorch_model, predict_pytorch_model
 
 import shutil
 
@@ -196,6 +197,38 @@ def run_modeling(df, cfg, folds_iterator):
 
     for fold_data in folds_iterator(df, cfg):
         for model_cfg in enabled_models:
+
+            if model_cfg.type == "pytorch":
+                model = train_pytorch_model(
+                    X_train=fold_data["X_train"],
+                    y_train=fold_data["y_train"],
+                    model_cfg=model_cfg,
+                    dl_cfg=cfg.dl,
+                    seed=cfg.general.seed,
+                )
+
+                predictions = predict_pytorch_model(
+                    model=model,
+                    X=fold_data["X_valid"],
+                    dl_cfg=cfg.dl,
+                )
+
+                score = accuracy_score(fold_data["y_valid"], predictions)
+
+                result = {
+                    "model_name": model_cfg.name,
+                    "model_type": model_cfg.type,
+                    "fold": fold_data["fold"],
+                    "params": dict(model_cfg.params),
+                    "metric": cfg.metric.name,
+                    "score": score,
+                }
+
+                results.append(result)
+                # Архитектурно отделяем Pytorch от sklearn 
+                # - не используем build_model, если модель типа PyTorch.
+                continue
+
             model = build_model(model_cfg, cfg)
 
             if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:
