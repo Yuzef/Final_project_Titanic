@@ -1,0 +1,2 @@
+model_name,mean_score,std_score,best_artifact_path
+dnn_mlp_h16_relu,0.6182443361966385,0.061659933550646244,trained_models/34_mlp_h16_relu/dnn_mlp_h16_relu_BEST.joblib

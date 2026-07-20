@@ -165,7 +165,7 @@ def train_and_save_full_model(df, cfg, model_cfg):
         else:
             X_train_for_model = X_train
 
-        model = train_pytorch_model(
+        model, _ = train_pytorch_model(
             X_train=X_train_for_model,
             y_train=y_train,
             model_cfg=model_cfg,
@@ -230,13 +230,27 @@ def run_modeling(df, cfg, folds_iterator):
                     X_valid_for_model = fold_data["X_valid"]
 
 
-                model = train_pytorch_model(
+                model, history = train_pytorch_model(
                     X_train=X_train_for_model,
                     y_train=fold_data["y_train"],
                     model_cfg=model_cfg,
                     dl_cfg=cfg.dl,
                     seed=cfg.general.seed,
+                    X_valid=X_valid_for_model,
+                    y_valid=fold_data["y_valid"],
                 )
+
+                training_histories = []
+
+                for history_row in history:
+                    training_histories.append({
+                        "model_name": model_cfg.name,
+                        "model_type": model_cfg.type,
+                        "fold": fold_data["fold"],
+                        **history_row,
+                    })
+
+                training_history_df = pd.DataFrame(training_histories)
 
                 predictions = predict_pytorch_model(
                     model=model,
@@ -318,7 +332,7 @@ def run_modeling(df, cfg, folds_iterator):
 
     best_model_info["best_artifact_path"] = best_artifact_path
 
-    return results_df, summary, artifact_paths, best_model_info
+    return results_df, summary, artifact_paths, best_model_info, training_history_df
 
 def select_best_model(summary):
     """

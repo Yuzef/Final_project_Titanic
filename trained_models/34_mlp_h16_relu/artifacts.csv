@@ -1,0 +1,2 @@
+model_name,artifact_path
+dnn_mlp_h16_relu,trained_models/34_mlp_h16_relu/dnn_mlp_h16_relu.joblib

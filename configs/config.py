@@ -2,14 +2,15 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "mlp_h16_relu",
+        "experiment_name": "34_mlp_h16_relu",
         "seed": 0xFACED,
         "num_classes": 2 
     },
     "paths": {
         "train_csv": "data_raw/train.csv",
         "test_csv": "data_raw/test.csv",
-        "trained_models": "trained_models"
+        "trained_models": "trained_models",
+        "plots_dir": "plots",
     },
     "validation": {
         "enabled": True,
@@ -154,7 +155,9 @@ config_dict = {
         "enabled": True,
     
         "training": {
-            "num_epochs": 10,
+            "num_epochs": 15,
+            # Рассчет метрик на валидации раз в n epochs.
+            "eval_every_n_epochs": 3,
             "device": "auto", # код сам выберет cuda / mps / cpu
             "mixed_precision": False, # подключим после BL запуска.
             "verbose": False,
@@ -211,6 +214,25 @@ config_dict = {
         "save_best_model": True,
         "save_readable_report": True,
     },
+    "visualization": {
+        "enabled": True,
+
+        "save_training_curves": True,
+        "save_fold_scores": True,
+        "save_summary_bar": True,
+
+        "show_plots": False,
+        "figure_dpi": 150,
+        "style": "whitegrid",
+
+        "training_curves": {
+            "metrics": ["loss", "accuracy"],
+            "plot_train": True,
+            "plot_valid": True,
+        },
+
+
+    }
 }
 
 config = OmegaConf.create(config_dict)
