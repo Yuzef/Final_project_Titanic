@@ -4,6 +4,7 @@ import joblib
 import pandas as pd
 
 from utils.preprocessing import preprocess
+from utils.pytorch_training import predict_pytorch_model
 
 def create_submission_from_artifact(test_df, cfg):
     """
@@ -40,7 +41,20 @@ def create_submission_from_artifact(test_df, cfg):
 
     X_test = preprocess(test_df, cfg, preprocessing_state)
 
-    predictions = model.predict(X_test)  
+    # Разделение на ветки PyTorch и sklearn (разные ф-ции для predictions).
+    if artifact["model_type"] == "pytorch":
+        # inference использует тот же scaler, который был обучен на full train.
+        scaler = artifact.get("scaler")
+        if scaler is not None:
+            X_test = scaler.transform(X_test)
+
+        predictions = predict_pytorch_model(
+            model=model,
+            X=X_test,
+            dl_cfg=cfg.dl,
+        )
+    else:
+        predictions = model.predict(X_test)  
 
     submission = pd.DataFrame({
         cfg.inference.id_column: test_df[cfg.inference.id_column],

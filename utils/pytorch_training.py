@@ -58,7 +58,6 @@ def build_optimizer(model, optimizer_cfg):
     
     raise ValueError(f"Unknown optimizer: {optimizer_cfg.name}")
 
-# output_dim = 2 (бинарная классификация).
 def train_pytorch_model(X_train, y_train, model_cfg, dl_cfg, seed):
     set_random_seed(seed) 
     device = resolve_device(dl_cfg.training.device)
@@ -70,6 +69,11 @@ def train_pytorch_model(X_train, y_train, model_cfg, dl_cfg, seed):
     # Кол-во входных признаков.
     input_dim = X_np.shape[1]
     output_dim = model_cfg.params.output_dim
+
+    if model_cfg.params.architecture != "mlp":
+        raise ValueError(
+            f"Unknown PyTorch architecture: {model_cfg.params.architecture}"
+        )
 
     model = TitanicMLPNet(
         input_dim=input_dim,
@@ -91,6 +95,10 @@ def train_pytorch_model(X_train, y_train, model_cfg, dl_cfg, seed):
         drop_last=dl_cfg.dataloader_params.drop_last,
         num_workers=dl_cfg.dataloader_params.num_workers,
         pin_memory=dl_cfg.dataloader_params.pin_memory,
+        persistent_workers=(
+            dl_cfg.dataloader_params.persistent_workers
+            and dl_cfg.dataloader_params.num_workers > 0
+        )
     )          
     
     loss_fn = build_loss(dl_cfg.loss)
@@ -152,4 +160,6 @@ def predict_pytorch_model(model, X, dl_cfg):
         # dim=1 -> идти по колонкам внутри строки
         predictions = torch.argmax(logits, dim=1)
     
+    # Возращаем в виде numpy результата, т.к. далее используется 
+    # sklearn ф-ция accuracy_score .
     return predictions.cpu().numpy()

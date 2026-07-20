@@ -154,18 +154,39 @@ def train_and_save_full_model(df, cfg, model_cfg):
     X_train = preprocess(df, cfg, preprocessing_state)
     y_train = df[cfg.validation.target_column]
 
-    model = build_model(model_cfg, cfg)
-    if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:
-        model.fit(
-            X_train,
-            y_train,
-            cat_features=list(cfg.preprocessing.features.cat_features),
+    # Для sklearn scaler будет None, 
+    # потому что sklearn-scaling уже внутри Pipeline.
+    scaler = None
+
+    if model_cfg.type == "pytorch":
+        if cfg.modeling.scale_features:
+            scaler = StandardScaler()
+            X_train_for_model = scaler.fit_transform(X_train)
+        else:
+            X_train_for_model = X_train
+
+        model = train_pytorch_model(
+            X_train=X_train_for_model,
+            y_train=y_train,
+            model_cfg=model_cfg,
+            dl_cfg=cfg.dl,
+            seed=cfg.general.seed,
         )
-    else:    
-        model.fit(X_train, y_train)
+    else:
+        model = build_model(model_cfg, cfg)
+
+        if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:
+            model.fit(
+                X_train,
+                y_train,
+                cat_features=list(cfg.preprocessing.features.cat_features),
+            )
+        else:    
+            model.fit(X_train, y_train)
 
     artifact = {
         "model": model,
+        "scaler": scaler,
         "preprocessing_state": preprocessing_state,
         "model_name": model_cfg.name,
         "model_type": model_cfg.type,
@@ -182,8 +203,7 @@ def train_and_save_full_model(df, cfg, model_cfg):
     )
 
     return artifact_path
-
-
+    
 def run_modeling(df, cfg, folds_iterator):
     """
     Запускает все enabled-модели на всех fold'ах.
@@ -197,10 +217,21 @@ def run_modeling(df, cfg, folds_iterator):
 
     for fold_data in folds_iterator(df, cfg):
         for model_cfg in enabled_models:
-
+            
+            # Архитектурно отделяем Pytorch от sklearn 
+            # - не используем build_model, если модель типа PyTorch.
             if model_cfg.type == "pytorch":
+                if cfg.modeling.scale_features:
+                    scaler = StandardScaler()
+                    X_train_for_model = scaler.fit_transform(fold_data["X_train"])
+                    X_valid_for_model = scaler.transform(fold_data["X_valid"])
+                else:
+                    X_train_for_model = fold_data["X_train"]
+                    X_valid_for_model = fold_data["X_valid"]
+
+
                 model = train_pytorch_model(
-                    X_train=fold_data["X_train"],
+                    X_train=X_train_for_model,
                     y_train=fold_data["y_train"],
                     model_cfg=model_cfg,
                     dl_cfg=cfg.dl,
@@ -209,7 +240,7 @@ def run_modeling(df, cfg, folds_iterator):
 
                 predictions = predict_pytorch_model(
                     model=model,
-                    X=fold_data["X_valid"],
+                    X=X_valid_for_model,
                     dl_cfg=cfg.dl,
                 )
 
@@ -225,10 +256,9 @@ def run_modeling(df, cfg, folds_iterator):
                 }
 
                 results.append(result)
-                # Архитектурно отделяем Pytorch от sklearn 
-                # - не используем build_model, если модель типа PyTorch.
                 continue
-
+            
+            # sklearn pipeline.
             model = build_model(model_cfg, cfg)
 
             if model_cfg.type == "catboost" and "cat_features" in cfg.preprocessing.features:

@@ -2,7 +2,7 @@ from omegaconf import OmegaConf
 
 config_dict = {
     'general': {
-        "experiment_name": "33_xgboost_st_gr_kfold_min_child_weight_search_50_lr005_d3",
+        "experiment_name": "mlp_h16_relu",
         "seed": 0xFACED,
         "num_classes": 2 
     },
@@ -140,8 +140,9 @@ config_dict = {
             {
                 "name": "dnn_mlp_h16_relu",
                 "enabled": True,
-                "type": "pytorch_mlp",
+                "type": "pytorch",
                 "params": {
+                    "architecture": "mlp",
                     "hidden_dim": 16,
                     "activation": "relu",
                     "output_dim": "${general.num_classes}",
@@ -155,7 +156,7 @@ config_dict = {
         "training": {
             "num_epochs": 10,
             "device": "auto", # код сам выберет cuda / mps / cpu
-            "mixed_precision": True,
+            "mixed_precision": False, # подключим после BL запуска.
             "verbose": False,
             # "early_stopping_epochs": 5,
             "lr": 1e-4,
